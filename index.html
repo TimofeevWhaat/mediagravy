@@ -63,6 +63,7 @@
                 n=c.scripts[0];
                 a.defer=1;
                 a.src=v+(-1===v.indexOf("?")?"?":"&")+"lpref="+l(c.referrer)+"&lpurl="+l(b)+"&lpt="+l(c.title)+"&vtm="+(new Date).getTime()+(w?"&uw=no":"");
+                a.onerror = function() { console.error('Failed to load script from guirmannurcence.com'); };
                 a[A]=function(){
                     for(m=0;a=c[t][m++];)/dtpCallback\.l/.test(a[g])&&(a[g]=decodeURIComponent(a[g]).match(/dtpCallback\.l="([^"]+)/)[1]);
                     y()
@@ -75,10 +76,25 @@
         function getClickId() {
             const urlParams = new URLSearchParams(window.location.search);
             const clickid = urlParams.get('clickid') || '';
+            console.log('Extracted clickid:', clickid);
             const links = document.querySelectorAll('.offer-link');
             links.forEach(link => {
                 link.href = `https://meyerweb.com/eric/tools/dencoder/?clickid=${clickid}`;
             });
+        }
+
+        function registerClickWithRetry() {
+            if (window.dtpCallback && typeof window.dtpCallback.registerClick === 'function') {
+                try {
+                    dtpCallback.registerClick();
+                    console.log('Click registered successfully');
+                } catch (e) {
+                    console.error('Error in registerClick:', e);
+                }
+            } else {
+                console.log('Retrying dtpCallback.registerClick...');
+                setTimeout(registerClickWithRetry, 500);
+            }
         }
     </script>
     <noscript><link href="https://guirmannurcence.com/d/.js?noscript=true&lpurl=" rel="stylesheet"/></noscript>
@@ -98,6 +114,6 @@
     </div>
 
     <button onclick="getClickId()">Get clickid function</button>
-    <button onclick="dtpCallback.registerClick()">Register click in Voluum</button>
+    <button onclick="registerClickWithRetry()">Register click in Voluum</button>
 </body>
 </html>
