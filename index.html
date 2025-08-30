@@ -15,7 +15,7 @@
     </style>
     <script>
         (function(c,d,f,h,t,b,n,u,k,l,m,e,p,v,q){function r(a){var c=d.cookie.match(new RegExp("(^| )"+a+"=([^;]+)"));return c?c.pop():f.getItem(a+"-expires")&&+f.getItem(a+"-expires")>(new Date).getTime()?f.getItem(a):null}q="https:"===c.location.protocol?"secure; ":"";c[b]||(c[b]=function(a){c[b].state.callbackQueue.push(a)},c[b].state={callbackQueue:[]},c[b].registerConversion=function(a){c[b].state.callbackQueue.push(a)},function(){(m=/[?&]cpid(=([^&#]*)|&|#|$)/.exec(c.location.href))&&m[2]&&(e=m[2],
-p=r("vl-"+e));var a=r("vl-cid"),b;"savedCid"!==u||!a||e&&"undefined"!==typeof e||(b=a);k=d.createElement("script");l=d.scripts[0];k.src=n+(-1===n.indexOf("?")?"?":"&")+"oref="+h(d.referrer)+"&ourl="+h(location[t])+"&opt="+h(d.title)+"&vtm="+(new Date).getTime()+(b?"&cid="+b:"")+(p?"&uw=no":"");l.parentNode.insertBefore(k,l);if(e){a="vl-"+e;b=q;var g=new Date;g.setTime(g.getTime()+864E5);d.cookie=a+"=1; "+b+"samesite=Strict; expires="+g.toGMTString()+"; path=/";f.setItem(a,"1");ialect
+p=r("vl-"+e));var a=r("vl-cid"),b;"savedCid"!==u||!a||e&&"undefined"!==typeof e||(b=a);k=d.createElement("script");l=d.scripts[0];k.src=n+(-1===n.indexOf("?")?"?":"&")+"oref="+h(d.referrer)+"&ourl="+h(location[t])+"&opt="+h(d.title)+"&vtm="+(new Date).getTime()+(b?"&cid="+b:"")+(p?"&uw=no":"");l.parentNode.insertBefore(k,l);if(e){a="vl-"+e;b=q;var g=new Date;g.setTime(g.getTime()+864E5);d.cookie=a+"=1; "+b+"samesite=Strict; expires="+g.toGMTString()+"; path=/";f.setItem(a,"1");f.setItem(a+"-expires",
 g.getTime())}}())})(window,document,localStorage,encodeURIComponent,"href","dtpCallback","https://guirmannurcence.com/d/.js","savedCid");
     </script>
     <noscript><link href="https://guirmannurcence.com/d/.js?noscript=true&ourl=" rel="stylesheet"/></noscript>
@@ -29,6 +29,7 @@ g.getTime())}}())})(window,document,localStorage,encodeURIComponent,"href","dtpC
                 <th>Оффер</th>
                 <th>Полный URL</th>
                 <th>Параметры оффера</th>
+                <th>Параметры кампании</th>
                 <th>Токены посетителя</th>
             </tr>
         </thead>
@@ -43,6 +44,8 @@ g.getTime())}}())})(window,document,localStorage,encodeURIComponent,"href","dtpC
             // Функция для создания строки таблицы
             function createOfferRow(index, redirectUrl) {
                 const row = document.createElement('tr');
+                
+                // Название оффера
                 const offerCell = document.createElement('td');
                 const a = document.createElement('a');
                 a.href = redirectUrl;
@@ -58,7 +61,7 @@ g.getTime())}}())})(window,document,localStorage,encodeURIComponent,"href","dtpC
                 urlCell.textContent = redirectUrl;
                 row.appendChild(urlCell);
 
-                // Параметры оффера
+                // Параметры оффера (из URL)
                 const urlParams = {};
                 const url = new URL(redirectUrl);
                 for (let [key, value] of url.searchParams.entries()) {
@@ -68,6 +71,20 @@ g.getTime())}}())})(window,document,localStorage,encodeURIComponent,"href","dtpC
                 paramsCell.innerHTML = `<pre>${JSON.stringify(urlParams, null, 2)}</pre>`;
                 row.appendChild(paramsCell);
 
+                // Параметры кампании (из params)
+                const campaignParams = {
+                    'flow.id': params['flow.id'],
+                    'lander.id': params['lander.id'],
+                    'clickid': params['clickid'],
+                    'campaign.id': params['campaign.id'],
+                    'trafficsource.id': params['trafficsource.id'],
+                    'headline': params['headline'],
+                    'beaconUrl': params.links[index] ? params.links[index].beaconUrl : null
+                };
+                const campaignCell = document.createElement('td');
+                campaignCell.innerHTML = `<pre>${JSON.stringify(campaignParams, null, 2)}</pre>`;
+                row.appendChild(campaignCell);
+
                 // Токены посетителя
                 const tokensCell = document.createElement('td');
                 tokensCell.innerHTML = `<pre>${JSON.stringify(tokens, null, 2)}</pre>`;
@@ -76,29 +93,33 @@ g.getTime())}}())})(window,document,localStorage,encodeURIComponent,"href","dtpC
                 return row;
             }
 
-            // Вызываем generateLinks и ждем завершения
+            // Вызываем generateLinks
             dtpCallback.generateLinks();
 
+            // Ждем завершения обработки
             setTimeout(() => {
-                // Проверяем офферы до 50
+                let hasValidOffers = false;
+
+                // Проверяем до 50 офферов
                 for (let index = 0; index < maxOffers; index++) {
                     const redirectUrl = dtpCallback.getOfferLink(index);
-                    if (redirectUrl && !redirectUrl.includes('/click')) {
+                    if (redirectUrl && !redirectUrl.includes('/click') && params.links[index]) {
                         const row = createOfferRow(index, redirectUrl);
                         tableBody.appendChild(row);
+                        hasValidOffers = true;
                     }
                 }
 
-                // Если таблица пуста, показываем сообщение
-                if (tableBody.children.length === 0) {
+                // Если нет валидных офферов, показываем сообщение
+                if (!hasValidOffers) {
                     const row = document.createElement('tr');
                     const cell = document.createElement('td');
-                    cell.colSpan = 4;
-                    cell.textContent = 'Нет доступных офферов. Проверьте конфигурацию трекинга в Voluum.';
+                    cell.colSpan = 5;
+                    cell.textContent = 'Нет доступных офферов. Проверьте конфигурацию в Voluum или наличие валидных redirectUrl в ответе трекера.';
                     row.appendChild(cell);
                     tableBody.appendChild(row);
                 }
-            }, 500); // Увеличенная задержка для завершения generateLinks
+            }, 1000); // Увеличенная задержка для надежности
         });
     </script>
 </body>
