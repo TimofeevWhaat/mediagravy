@@ -6,12 +6,11 @@
     <meta http-equiv="delegate-ch" content="sec-ch-ua https://guirmannurcence.com; sec-ch-ua-mobile https://guirmannurcence.com; sec-ch-ua-arch https://guirmannurcence.com; sec-ch-ua-model https://guirmannurcence.com; sec-ch-ua-platform https://guirmannurcence.com; sec-ch-ua-platform-version https://guirmannurcence.com; sec-ch-ua-bitness https://guirmannurcence.com; sec-ch-ua-full-version-list https://guirmannurcence.com; sec-ch-ua-full-version https://guirmannurcence.com">
     <style>
         .dtpcnt { opacity: 0; }
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-        th { background-color: #f2f2f2; }
-        a { color: #007bff; text-decoration: none; }
-        a:hover { text-decoration: underline; }
-        pre { white-space: pre-wrap; font-size: 12px; }
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        button { padding: 10px 20px; font-size: 16px; cursor: pointer; background-color: #007bff; color: white; border: none; border-radius: 5px; }
+        button:hover { background-color: #0056b3; }
+        pre { white-space: pre-wrap; font-size: 14px; background-color: #f8f8f8; padding: 10px; border: 1px solid #ddd; border-radius: 5px; }
+        #output { margin-top: 20px; }
     </style>
     <script>
         (function(c,d,f,h,t,b,n,u,k,l,m,e,p,v,q){function r(a){var c=d.cookie.match(new RegExp("(^| )"+a+"=([^;]+)"));return c?c.pop():f.getItem(a+"-expires")&&+f.getItem(a+"-expires")>(new Date).getTime()?f.getItem(a):null}q="https:"===c.location.protocol?"secure; ":"";c[b]||(c[b]=function(a){c[b].state.callbackQueue.push(a)},c[b].state={callbackQueue:[]},c[b].registerConversion=function(a){c[b].state.callbackQueue.push(a)},function(){(m=/[?&]cpid(=([^&#]*)|&|#|$)/.exec(c.location.href))&&m[2]&&(e=m[2],
@@ -23,103 +22,78 @@ g.getTime())}}())})(window,document,localStorage,encodeURIComponent,"href","dtpC
 </head>
 <body>
     <h1>Доступные офферы</h1>
-    <table id="offers-table">
-        <thead>
-            <tr>
-                <th>Оффер</th>
-                <th>Полный URL</th>
-                <th>Параметры оффера</th>
-                <th>Параметры кампании</th>
-                <th>Токены посетителя</th>
-            </tr>
-        </thead>
-        <tbody></tbody>
-    </table>
+    <button id="show-offers">Показать офферы</button>
+    <div id="output"></div>
     <script>
         dtpCallback((params) => {
-            const tableBody = document.querySelector('#offers-table tbody');
+            const outputDiv = document.getElementById('output');
+            const showButton = document.getElementById('show-offers');
             const maxOffers = 50;
-            const tokens = dtpCallback.getTokens();
 
-            // Функция для создания строки таблицы
-            function createOfferRow(index, redirectUrl) {
-                const row = document.createElement('tr');
-                
-                // Название оффера
-                const offerCell = document.createElement('td');
-                const a = document.createElement('a');
-                a.href = redirectUrl;
-                a.textContent = `Оффер ${index === 0 ? 'default' : index}`;
-                a.addEventListener('click', () => {
-                    dtpCallback.registerClick(index);
-                });
-                offerCell.appendChild(a);
-                row.appendChild(offerCell);
+            // Проверяем доступность localStorage
+            let localStorageStatus = 'Доступно';
+            try {
+                localStorage.setItem('test', 'test');
+                localStorage.removeItem('test');
+            } catch (e) {
+                localStorageStatus = 'Недоступно: ' + e.message;
+            }
 
-                // Полный URL
-                const urlCell = document.createElement('td');
-                urlCell.textContent = redirectUrl;
-                row.appendChild(urlCell);
+            showButton.addEventListener('click', () => {
+                console.log('Params:', params);
+                console.log('Tokens:', dtpCallback.getTokens());
 
-                // Параметры оффера (из URL)
-                const urlParams = {};
-                const url = new URL(redirectUrl);
-                for (let [key, value] of url.searchParams.entries()) {
-                    urlParams[key] = value;
-                }
-                const paramsCell = document.createElement('td');
-                paramsCell.innerHTML = `<pre>${JSON.stringify(urlParams, null, 2)}</pre>`;
-                row.appendChild(paramsCell);
-
-                // Параметры кампании (из params)
-                const campaignParams = {
+                // Формируем текстовый вывод
+                let output = 'Параметры кампании:\n';
+                output += JSON.stringify({
                     'flow.id': params['flow.id'],
                     'lander.id': params['lander.id'],
                     'clickid': params['clickid'],
                     'campaign.id': params['campaign.id'],
                     'trafficsource.id': params['trafficsource.id'],
                     'headline': params['headline'],
-                    'beaconUrl': params.links[index] ? params.links[index].beaconUrl : null
-                };
-                const campaignCell = document.createElement('td');
-                campaignCell.innerHTML = `<pre>${JSON.stringify(campaignParams, null, 2)}</pre>`;
-                row.appendChild(campaignCell);
+                    'clickParams': params['clickParams']
+                }, null, 2) + '\n\n';
 
-                // Токены посетителя
-                const tokensCell = document.createElement('td');
-                tokensCell.innerHTML = `<pre>${JSON.stringify(tokens, null, 2)}</pre>`;
-                row.appendChild(tokensCell);
+                output += 'Токены посетителя:\n';
+                output += JSON.stringify(dtpCallback.getTokens(), null, 2) + '\n\n';
 
-                return row;
-            }
-
-            // Вызываем generateLinks
-            dtpCallback.generateLinks();
-
-            // Ждем завершения обработки
-            setTimeout(() => {
+                output += 'Офферы:\n';
                 let hasValidOffers = false;
-
-                // Проверяем до 50 офферов
                 for (let index = 0; index < maxOffers; index++) {
-                    const redirectUrl = dtpCallback.getOfferLink(index);
-                    if (redirectUrl && !redirectUrl.includes('/click') && params.links[index]) {
-                        const row = createOfferRow(index, redirectUrl);
-                        tableBody.appendChild(row);
+                    if (params.links && params.links[index] && params.links[index].redirectUrl) {
+                        const redirectUrl = params.links[index].redirectUrl;
+                        const beaconUrl = params.links[index].beaconUrl || 'null';
+                        const urlParams = {};
+                        try {
+                            const url = new URL(redirectUrl);
+                            for (let [key, value] of url.searchParams.entries()) {
+                                urlParams[key] = value;
+                            }
+                        } catch (e) {
+                            console.error(`Ошибка обработки URL для оффера ${index}:`, e);
+                        }
+
+                        output += `Оффер ${index === 0 ? 'default' : index}:\n`;
+                        output += `  redirectUrl: ${redirectUrl}\n`;
+                        output += `  beaconUrl: ${beaconUrl}\n`;
+                        output += `  Параметры оффера: ${JSON.stringify(urlParams, null, 2)}\n\n`;
                         hasValidOffers = true;
                     }
                 }
 
-                // Если нет валидных офферов, показываем сообщение
                 if (!hasValidOffers) {
-                    const row = document.createElement('tr');
-                    const cell = document.createElement('td');
-                    cell.colSpan = 5;
-                    cell.textContent = 'Нет доступных офферов. Проверьте конфигурацию в Voluum или наличие валидных redirectUrl в ответе трекера.';
-                    row.appendChild(cell);
-                    tableBody.appendChild(row);
+                    output += 'Нет доступных офферов. Проверьте конфигурацию в Voluum или наличие валидных redirectUrl в ответе трекера.\n';
                 }
-            }, 1000); // Увеличенная задержка для надежности
+
+                output += `Статус localStorage: ${localStorageStatus}\n`;
+
+                // Выводим текст в div
+                const pre = document.createElement('pre');
+                pre.textContent = output;
+                outputDiv.innerHTML = '';
+                outputDiv.appendChild(pre);
+            });
         });
     </script>
 </body>
