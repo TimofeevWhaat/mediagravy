@@ -40,6 +40,18 @@
         #quiz-form {
             margin-top: 20px;
         }
+        button {
+            padding: 10px 20px;
+            margin: 5px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
     </style>
     <script>
         (function(d,c,k,l,r,t,g,u,A,e,m,v,B,a,n,p,h,q,w,D,x){function y(){for(var f=c.querySelectorAll(".dtpcnt"),b=0,a=f.length;b<a;b++)f[b][u]=f[b][u].replace(/(^|\s+)dtpcnt($|\s+)/g,"")}function C(a,b,d,e){var f=new Date;f.setTime(f.getTime()+(e||864E5));c.cookie=a+"="+b+"; "+d+"samesite=Strict; expires="+f.toGMTString()+"; path=/";k.setItem(a,b);k.setItem(a+"-expires",f.getTime())}function z(a){var b=c.cookie.match(new RegExp("(^| )"+a+"=([^;]+)"));return b?b.pop():k.getItem(a+"-expires")&&+k.getItem(a+"-expires")>(new Date).getTime()?k.getItem(a):null}x="https:"===d.location.protocol?"secure; ":"";d[e]||(d[e]=function(){(d[e].q=d[e].q||[]).push(arguments)},p=c[r],c[r]=function(){p&&p.apply(this,arguments);if(d[e]&&!d[e].hasOwnProperty("params")&&/loaded|interactive|complete/.test(c.readyState))for(;a=c[t][m++];)/\/?click\/?($|(\/[0-9]+)?$)/.test(a.pathname)&&(a[g]="javascrip"+d.postMessage.toString().slice(4,5)+":"+e+'.l="'+a[g]+'",void 0')},setTimeout(function(){(q=/[?&]cpid(=([^&#]*)|&|#|$)/.exec(d.location.href))&&q[2]&&(h=q[2],w=z("vl-"+h));var f=z("vl-cep"),b=location[g];if("savedCep"===B&&f&&(!h||"undefined"===typeof h)&&0>b.indexOf("cep=")){var e=-1<b.indexOf("?")?"&":"?";b+=e+f}a=c.createElement("script");n=c.scripts[0];a.defer=1;a.src=v+(-1===v.indexOf("?")?"?":"&")+"lpref="+l(c.referrer)+"&lpurl="+l(b)+"&lpt="+l(c.title)+"&vtm="+(new Date).getTime()+(w?"&uw=no":"");a[A]=function(){for(m=0;a=c[t][m++];)/dtpCallback\.l/.test(a[g])&&(a[g]=decodeURIComponent(a[g]).match(/dtpCallback\.l="([^"]+)/)[1]);y()};
@@ -49,7 +61,10 @@
 </head>
 <body>
     <div id="timer">5</div>
-    <form id="quiz-form"></form>
+    <form id="quiz-form">
+        <button onclick="dtpCallback(() => { window.location = dtpCallback.getOfferLink(1); });">Go to Offer 1</button>
+        <button onclick="dtpCallback(() => { window.location = dtpCallback.getOfferLink(2); });">Go to Offer 2</button>
+    </form>
     <ul>
         <li><a href="https://guirmannurcence.com/click">https://guirmannurcence.com/click</a></li>
         <li><a href="https://guirmannurcence.com/click">https://guirmannurcence.com/click</a></li>
@@ -71,15 +86,6 @@
             timerElement.textContent = timeLeft;
             if (timeLeft <= 0) {
                 clearInterval(timer);
-                // Execute dtpCallback after timer ends
-                dtpCallback(() => {
-                    var formNode = document.getElementById("quiz-form");
-                    var formElement = document.createElement("button");
-                    formElement.textContent = "Submit";
-                    formElement.onclick = () => { window.location.href = "https://guirmannurcence.com/click"; };
-                    formNode.append(formElement);
-                    dtpCallback.generateLinks();
-                });
             }
         }, 1000);
     </script>
