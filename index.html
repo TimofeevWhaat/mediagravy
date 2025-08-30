@@ -3,106 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Список офферов и параметров</title>
-    
+    <title>Лендинг с Voluum: Все ссылки</title>
+
     <meta http-equiv="delegate-ch" content="sec-ch-ua https://guirmannurcence.com; sec-ch-ua-mobile https://guirmannurcence.com; sec-ch-ua-arch https://guirmannurcence.com; sec-ch-ua-model https://guirmannurcence.com; sec-ch-ua-platform https://guirmannurcence.com; sec-ch-ua-platform-version https://guirmannurcence.com; sec-ch-ua-bitness https://guirmannurcence.com; sec-ch-ua-full-version-list https://guirmannurcence.com; sec-ch-ua-full-version https://guirmannurcence.com">
     <style>.dtpcnt{opacity: 0;}</style>
-    <script>
-        (function(c,d,f,h,t,b,n,u,k,l,m,e,p,v,q){function r(a){var c=d.cookie.match(new RegExp("(^| )"+a+"=([^;]+)"));return c?c.pop():f.getItem(a+"-expires")&&+f.getItem(a+"-expires")>(new Date).getTime()?f.getItem(a):null}q="https:"===c.location.protocol?"secure; ":"";c[b]||(c[b]=function(a){c[b].state={callbackQueue:[]},c[b].registerConversion=function(a){c[b].state.callbackQueue.push(a)},function(){(m=/[?&]cpid(=([^&#]*)|&|#|$)/.exec(c.location.href))&&m[2]&&(e=m[2],
-        p=r("vl-"+e));var a=r("vl-cid"),b;"savedCid"!==u||!a||e&&"undefined"!==typeof e||(b=a);k=d.createElement("script");l=d.scripts[0];k.src=n+(-1===n.indexOf("?")?"?":"&")+"oref="+h(d.referrer)+"&ourl="+h(location[t])+"&opt="+h(d.title)+"&vtm="+(new Date).getTime()+(b?"&cid="+b:"")+(p?"&uw=no":"");l.parentNode.insertBefore(k,l);if(e){a="vl-"+e;b=q;var g=new Date;g.setTime(g.getTime()+864E5);d.cookie=a+"=1; "+b+"samesite=Strict; expires="+g.toGMTString()+"; path=/";f.setItem(a,"1");f.setItem(a+"-expires",
-        g.getTime())}}())})(window,document,localStorage,encodeURIComponent,"href","dtpCallback","https://guirmannurcence.com/d/.js","savedCid");
-    </script>
-    <noscript><link href="https://guirmannurcence.com/d/.js?noscript=true&ourl=" rel="stylesheet"/></noscript>
     
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            background-color: #f4f4f4;
-        }
-        .container {
-            max-width: 800px;
-            margin: auto;
-            background: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        h1 {
-            color: #333;
-            text-align: center;
-        }
-        .offer-section {
-            margin-bottom: 20px;
-            border: 1px solid #ddd;
-            padding: 15px;
-            border-radius: 5px;
-            background-color: #fafafa;
-        }
-        .offer-link {
-            display: block;
-            font-size: 18px;
-            margin-top: 10px;
-            text-decoration: none;
-            color: #007BFF;
-            word-wrap: break-word;
-        }
-        .offer-link:hover {
-            text-decoration: underline;
-        }
-        .no-offers {
-            color: #d9534f;
-            text-align: center;
-        }
-        pre {
-            background: #e9e9e9;
-            padding: 10px;
-            border-radius: 5px;
-            white-space: pre-wrap;
-            word-wrap: break-word;
-        }
-    </style>
 </head>
 <body>
 
-    <div class="container">
-        <h1>Доступные офферы и параметры</h1>
-        <div id="offers-list">
-            <p>Загрузка данных...</p>
-        </div>
+    <h1>Лендинг с динамическими ссылками</h1>
+    
+    <p>Все ссылки на офферы будут добавлены ниже:</p>
+
+    <div id="offers-container">
+        <p>Загрузка ссылок...</p>
     </div>
 
     <script>
-        dtpCallback(() => {
-            const offersContainer = document.getElementById('offers-list');
-            offersContainer.innerHTML = ''; // Очищаем сообщение о загрузке
-            
-            // Получаем токены
-            const tokens = dtpCallback.getTokens();
-            
-            // Проверяем, есть ли офферы
-            if (tokens.links && tokens.links.length > 0) {
-                // Если офферы есть, перебираем их и отображаем
-                tokens.links.forEach((link, index) => {
-                    const offerLink = dtpCallback.getOfferLink(index + 1);
-                    
-                    const offerSection = document.createElement('div');
-                    offerSection.className = 'offer-section';
-                    offerSection.innerHTML = `
-                        <h2>Оффер #${index + 1}</h2>
-                        <p><strong>Ссылка:</strong></p>
-                        <a href="${offerLink}" class="offer-link">${offerLink}</a>
-                        <p><strong>Параметры:</strong></p>
-                        <pre>${JSON.stringify(tokens, null, 2)}</pre>
-                    `;
-                    offersContainer.appendChild(offerSection);
-                });
-            } else {
-                // Если офферов нет, выводим сообщение
-                offersContainer.innerHTML = '<p class="no-offers">Офферы не найдены.</p>';
-            }
-        });
-    </script>
-
-</body>
-</html>
+    (function(d,c,k,l,r,t,g,u,A,e,m,v,B,a,n,p,h,q,w,D,x){function y(){for(var f=c.querySelectorAll(".dtpcnt"),b=0,a=f.length;b<a;b++)f[b][u]=f[b][u].replace(/(^|\s+)dtpcnt($|\s+)/g,"")}function C(a,b,d,e){var f=new Date;f.setTime(f.getTime()+(e||864E5));c.cookie=a+"="+b+"; "+d+"samesite=Strict; expires="+f.toGMTString()+"; path=/";k.setItem(a,b);k.setItem(a+"-expires",f.getTime())}function z(a){var b=c.cookie.match(new RegExp("(^| )"+a+"=([^;]+)"));return b?b.pop():k.getItem(a+"-expires")&&+k.getItem(a+
+"-expires")>(new Date).getTime()?k.getItem(a):null}x="https:"===d.location.protocol?"secure; ":"";d[e]||(d[e]=function(){(d[e].q=d[e].q||[]).push(arguments)},p=c[r],c[r]=function(){p&&p.apply(this,arguments);if(d[e]&&!d[e].hasOwnProperty("params")&&/loaded|interactive|complete/.test(c.readyState))for(;a=c[t][m++];)/\/?click\/?($|(\/[0-9]+)?$)/.test(a.pathname)&&(a[g]="javascrip"+d.postMessage.toString().slice(4,5)+":"+e+'.l="'+a[g]+
