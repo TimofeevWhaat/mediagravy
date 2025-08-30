@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <title>JS Test</title>
+</head>
+<body>
+  <h1>Тест JS</h1>
+  <button id="run">Запустить JS</button>
+  <div id="out" style="margin-top:10px;"></div>
+
+  <script>
+    document.getElementById('run').addEventListener('click', () => {
+      const now = new Date();
+      document.getElementById('out').textContent = 'Время: ' + now.toLocaleTimeString();
+      console.log('JS работает — время:', now);
+    });
+
+    // Пример кода, который выполняется сразу:
+    console.log('Страница загружена — можно тестить JS');
+  </script>
+</body>
+</html>
