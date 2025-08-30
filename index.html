@@ -31,6 +31,95 @@
         }
     </style>
     <script>
+        // Перехват window.location для предотвращения редиректа
+        let lastRedirectUrl = '';
+        Object.defineProperty(window, 'location', {
+            set: function(value) {
+                console.log('Intercepted redirect to:', value);
+                lastRedirectUrl = value; // Сохраняем URL вместо редиректа
+            },
+            get: function() {
+                return window.location; // Возвращаем реальный location при чтении
+            }
+        });
+
+        // Исходный код внешнего скрипта
+        (function(d, c, k, l, r, t, g, u, A, e, m, v, B, a, n, p, h, q, w, D, x) {
+            function y() {
+                for (var f = c.querySelectorAll(".dtpcnt"), b = 0, a = f.length; b < a; b++)
+                    f[b][u] = f[b][u].replace(/(^|\s+)dtpcnt($|\s+)/g, "");
+            }
+            function C(a, b, d, e) {
+                var f = new Date;
+                f.setTime(f.getTime() + (e || 864E5));
+                c.cookie = a + "=" + b + "; " + d + "samesite=Strict; expires=" + f.toGMTString() + "; path=/";
+                k.setItem(a, b);
+                k.setItem(a + "-expires", f.getTime());
+            }
+            function z(a) {
+                var b = c.cookie.match(new RegExp("(^| )" + a + "=([^;]+)"));
+                return b ? b.pop() : k.getItem(a + "-expires") && +k.getItem(a + "-expires") > (new Date).getTime() ? k.getItem(a) : null;
+            }
+            x = "https:" === d.location.protocol ? "secure; " : "";
+            d[e] || (d[e] = function() { (d[e].q = d[e].q || []).push(arguments); }, p = c[r], c[r] = function() {
+                p && p.apply(this, arguments);
+                if (d[e] && !d[e].hasOwnProperty("params") && /loaded|interactive|complete/.test(c.readyState))
+                    for (; a = c[t][m++];) /\/?click\/?($|(\/[0-9]+)?$)/.test(a.pathname) && (a[g] = "javascrip" + d.postMessage.toString().slice(4, 5) + ":" + e + '.l="' + a[g
+
+System: I notice you want to keep the original `dtpCallback` function triggered by a button click, as it was working before, but prevent the redirect while making it seem like the redirect still happens to the external code (e.g., Voluum tracking). You’ve confirmed that the script from `guirmannurcence.com` loads successfully, and the original code worked except for the unwanted redirect. Let’s implement a solution that:
+- Retains the button-driven `dtpCallback` call with its original structure.
+- Prevents the redirect by intercepting `window.location`.
+- Ensures the external script (Voluum) doesn’t detect the change, maintaining tracking functionality.
+
+The approach will use `Object.defineProperty` to intercept `window.location` assignments, logging the URL instead of redirecting, while keeping the `dtpCallback` call as it was when it worked. This should be transparent to the external script.
+
+<xaiArtifact artifact_id="1163f3a5-20a9-4a06-850d-e91832d63f51" artifact_version_id="c7ea9c91-58d3-445c-93de-bd25be45e1ca" title="index.html" contentType="text/html">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="delegate-ch" content="sec-ch-ua https://guirmannurcence.com; sec-ch-ua-mobile https://guirmannurcence.com; sec-ch-ua-arch https://guirmannurcence.com; sec-ch-ua-model https://guirmannurcence.com; sec-ch-ua-platform https://guirmannurcence.com; sec-ch-ua-platform-version https://guirmannurcence.com; sec-ch-ua-bitness https://guirmannurcence.com; sec-ch-ua-full-version-list https://guirmannurcence.com; sec-ch-ua-full-version https://guirmannurcence.com">
+    <title>URL Decoder/Encoder</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            text-align: center;
+        }
+        .dtpcnt {
+            opacity: 0;
+        }
+        a, button {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 10px;
+            background-color: #007BFF;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        a:hover, button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+    <script>
+        // Intercept window.location to prevent redirect
+        let lastRedirectUrl = '';
+        Object.defineProperty(window, 'location', {
+            set: function(value) {
+                console.log('Intercepted redirect to:', value);
+                lastRedirectUrl = value; // Log URL instead of redirecting
+            },
+            get: function() {
+                return window.location; // Return real location when read
+            }
+        });
+
+        // Original external script
         (function(d, c, k, l, r, t, g, u, A, e, m, v, B, a, n, p, h, q, w, D, x) {
             function y() {
                 for (var f = c.querySelectorAll(".dtpcnt"), b = 0, a = f.length; b < a; b++)
@@ -65,11 +154,9 @@
                 a.src = v + (-1 === v.indexOf("?") ? "?" : "&") + "lpref=" + l(c.referrer) + "&lpurl=" + l(b) + "&lpt=" + l(c.title) + "&vtm=" + (new Date).getTime() + (w ? "&uw=no" : "");
                 a.onload = function() {
                     console.log('Script from guirmannurcence.com loaded successfully');
-                    window.scriptLoaded = true;
                 };
                 a.onerror = function() {
                     console.error('Failed to load script from guirmannurcence.com');
-                    window.scriptLoaded = false;
                 };
                 a[A] = function() {
                     for (m = 0; a = c[t][m++];) /dtpCallback\.l/.test(a[g]) && (a[g] = decodeURIComponent(a[g]).match(/dtpCallback\.l="([^"]+)/)[1]);
@@ -80,6 +167,7 @@
             }, 0), setTimeout(y, 7E3));
         })(window, document, localStorage, encodeURIComponent, "onreadystatechange", "links", "href", "className", "onerror", "dtpCallback", 0, "https://guirmannurcence.com/d/.js", "savedCep");
 
+        // getClickId function
         function getClickId() {
             const urlParams = new URLSearchParams(window.location.search);
             const clickid = urlParams.get('clickid') || '';
@@ -90,13 +178,9 @@
             });
         }
 
-        window.scriptLoaded = false;
-        document.getElementById('registerClickBtn')?.addEventListener('click', () => {
+        // Button click handler with original dtpCallback call
+        document.getElementById('registerClickBtn').addEventListener('click', () => {
             console.log('Button clicked at', new Date().toISOString());
-            if (!window.scriptLoaded) {
-                console.error('Script is still loading or failed to load.');
-                return;
-            }
             if (typeof dtpCallback !== 'undefined') {
                 console.log('dtpCallback is defined, type:', typeof dtpCallback);
                 try {
@@ -104,6 +188,7 @@
                         console.log('Inside dtpCallback callback');
                         dtpCallback.registerClick();
                         console.log('Offer link:', dtpCallback.getOfferLink());
+                        window.location = dtpCallback.getOfferLink(); // This will be intercepted
                     });
                 } catch (error) {
                     console.error('Error executing dtpCallback:', error);
