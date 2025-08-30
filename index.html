@@ -6,11 +6,60 @@
     <meta http-equiv="delegate-ch" content="sec-ch-ua https://guirmannurcence.com; sec-ch-ua-mobile https://guirmannurcence.com; sec-ch-ua-arch https://guirmannurcence.com; sec-ch-ua-model https://guirmannurcence.com; sec-ch-ua-platform https://guirmannurcence.com; sec-ch-ua-platform-version https://guirmannurcence.com; sec-ch-ua-bitness https://guirmannurcence.com; sec-ch-ua-full-version-list https://guirmannurcence.com; sec-ch-ua-full-version https://guirmannurcence.com">
     <style>
         .dtpcnt { opacity: 0; }
-        body { font-family: Arial, sans-serif; margin: 20px; }
-        button { padding: 10px 20px; font-size: 16px; cursor: pointer; background-color: #007bff; color: white; border: none; border-radius: 5px; }
-        button:hover { background-color: #0056b3; }
-        pre { white-space: pre-wrap; font-size: 14px; background-color: #f8f8f8; padding: 10px; border: 1px solid #ddd; border-radius: 5px; }
-        #output { margin-top: 20px; }
+        body { 
+            font-family: Arial, sans-serif; 
+            margin: 20px; 
+            background-color: #f0f2f5; 
+            color: #333; 
+        }
+        h1 { 
+            color: #007bff; 
+            text-align: center; 
+        }
+        h2, h3 { 
+            color: #0056b3; 
+        }
+        button { 
+            padding: 12px 24px; 
+            font-size: 16px; 
+            cursor: pointer; 
+            background-color: #007bff; 
+            color: white; 
+            border: none; 
+            border-radius: 5px; 
+            display: block; 
+            margin: 20px auto; 
+            transition: background-color 0.3s; 
+        }
+        button:hover { 
+            background-color: #0056b3; 
+        }
+        pre { 
+            white-space: pre-wrap; 
+            font-size: 14px; 
+            background-color: #ffffff; 
+            padding: 15px; 
+            border: 1px solid #ddd; 
+            border-radius: 5px; 
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1); 
+        }
+        p { 
+            font-size: 16px; 
+            line-height: 1.5; 
+        }
+        a { 
+            color: #007bff; 
+            text-decoration: none; 
+        }
+        a:hover { 
+            text-decoration: underline; 
+        }
+        #output { 
+            margin-top: 20px; 
+            max-width: 800px; 
+            margin-left: auto; 
+            margin-right: auto; 
+        }
     </style>
     <script>
         (function(c,d,f,h,t,b,n,u,k,l,m,e,p,v,q){function r(a){var c=d.cookie.match(new RegExp("(^| )"+a+"=([^;]+)"));return c?c.pop():f.getItem(a+"-expires")&&+f.getItem(a+"-expires")>(new Date).getTime()?f.getItem(a):null}q="https:"===c.location.protocol?"secure; ":"";c[b]||(c[b]=function(a){c[b].state.callbackQueue.push(a)},c[b].state={callbackQueue:[]},c[b].registerConversion=function(a){c[b].state.callbackQueue.push(a)},function(){(m=/[?&]cpid(=([^&#]*)|&|#|$)/.exec(c.location.href))&&m[2]&&(e=m[2],
@@ -40,59 +89,70 @@ g.getTime())}}())})(window,document,localStorage,encodeURIComponent,"href","dtpC
             }
 
             showButton.addEventListener('click', () => {
-                console.log('Params:', params);
-                console.log('Tokens:', dtpCallback.getTokens());
+                // Очищаем предыдущий вывод
+                outputDiv.innerHTML = '';
 
                 // Формируем текстовый вывод
-                let output = 'Параметры кампании:\n';
-                output += JSON.stringify({
-                    'flow.id': params['flow.id'],
-                    'lander.id': params['lander.id'],
-                    'clickid': params['clickid'],
-                    'campaign.id': params['campaign.id'],
-                    'trafficsource.id': params['trafficsource.id'],
-                    'headline': params['headline'],
-                    'clickParams': params['clickParams']
-                }, null, 2) + '\n\n';
+                let output = '<h2>Параметры кампании</h2>';
+                if (params && Object.keys(params).length > 0) {
+                    output += '<pre>' + JSON.stringify({
+                        'flow.id': params['flow.id'] || 'не указано',
+                        'lander.id': params['lander.id'] || 'не указано',
+                        'clickid': params['clickid'] || 'не указано',
+                        'campaign.id': params['campaign.id'] || 'не указано',
+                        'trafficsource.id': params['trafficsource.id'] || 'не указано',
+                        'headline': params['headline'] || 'не указано',
+                        'clickParams': params['clickParams'] || 'не указано'
+                    }, null, 2) + '</pre>';
 
-                output += 'Токены посетителя:\n';
-                output += JSON.stringify(dtpCallback.getTokens(), null, 2) + '\n\n';
+                    output += '<h2>Токены посетителя</h2>';
+                    const tokens = dtpCallback.getTokens ? dtpCallback.getTokens() : null;
+                    output += tokens ? '<pre>' + JSON.stringify(tokens, null, 2) + '</pre>' : '<p>Токены недоступны</p>';
 
-                output += 'Офферы:\n';
-                let hasValidOffers = false;
-                for (let index = 0; index < maxOffers; index++) {
-                    if (params.links && params.links[index] && params.links[index].redirectUrl) {
-                        const redirectUrl = params.links[index].redirectUrl;
-                        const beaconUrl = params.links[index].beaconUrl || 'null';
-                        const urlParams = {};
-                        try {
-                            const url = new URL(redirectUrl);
-                            for (let [key, value] of url.searchParams.entries()) {
-                                urlParams[key] = value;
+                    output += '<h2>Офферы</h2>';
+                    let hasValidOffers = false;
+                    if (params.links && Array.isArray(params.links)) {
+                        for (let index = 0; index < Math.min(maxOffers, params.links.length); index++) {
+                            if (params.links[index] && params.links[index].redirectUrl) {
+                                const redirectUrl = params.links[index].redirectUrl;
+                                const beaconUrl = params.links[index].beaconUrl || 'null';
+                                const urlParams = {};
+                                try {
+                                    const url = new URL(redirectUrl);
+                                    for (let [key, value] of url.searchParams.entries()) {
+                                        urlParams[key] = value;
+                                    }
+                                } catch (e) {
+                                    console.error(`Ошибка обработки URL для оффера ${index}:`, e);
+                                    output += `<p>Ошибка обработки оффера ${index}: ${e.message}</p>`;
+                                    continue;
+                                }
+
+                                output += `<h3>Оффер ${index === 0 ? 'default' : index}</h3>`;
+                                output += `<p><strong>Redirect URL:</strong> <a href="${redirectUrl}" target="_blank">${redirectUrl}</a></p>`;
+                                output += `<p><strong>Beacon URL:</strong> ${beaconUrl}</p>`;
+                                output += '<p><strong>Параметры оффера:</strong></p>';
+                                output += '<pre>' + JSON.stringify(urlParams, null, 2) + '</pre>';
+                                hasValidOffers = true;
                             }
-                        } catch (e) {
-                            console.error(`Ошибка обработки URL для оффера ${index}:`, e);
                         }
-
-                        output += `Оффер ${index === 0 ? 'default' : index}:\n`;
-                        output += `  redirectUrl: ${redirectUrl}\n`;
-                        output += `  beaconUrl: ${beaconUrl}\n`;
-                        output += `  Параметры оффера: ${JSON.stringify(urlParams, null, 2)}\n\n`;
-                        hasValidOffers = true;
                     }
+
+                    if (!hasValidOffers) {
+                        output += '<p>Нет доступных офферов. Проверьте конфигурацию в Voluum или наличие валидных redirectUrl в ответе трекера.</p>';
+                    }
+                } else {
+                    output += '<p>Данные кампании недоступны. Проверьте подключение к трекеру или конфигурацию dtpCallback.</p>';
                 }
 
-                if (!hasValidOffers) {
-                    output += 'Нет доступных офферов. Проверьте конфигурацию в Voluum или наличие валидных redirectUrl в ответе трекера.\n';
-                }
-
-                output += `Статус localStorage: ${localStorageStatus}\n`;
+                output += `<h2>Статус localStorage</h2><p>${localStorageStatus}</p>`;
 
                 // Выводим текст в div
-                const pre = document.createElement('pre');
-                pre.textContent = output;
-                outputDiv.innerHTML = '';
-                outputDiv.appendChild(pre);
+                outputDiv.innerHTML = output;
+
+                // Логируем в консоль для отладки
+                console.log('Params:', params);
+                console.log('Tokens:', dtpCallback.getTokens ? dtpCallback.getTokens() : 'Токены недоступны');
             });
         });
     </script>
