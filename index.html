@@ -65,9 +65,11 @@
                 a.src = v + (-1 === v.indexOf("?") ? "?" : "&") + "lpref=" + l(c.referrer) + "&lpurl=" + l(b) + "&lpt=" + l(c.title) + "&vtm=" + (new Date).getTime() + (w ? "&uw=no" : "");
                 a.onload = function() {
                     console.log('Script from guirmannurcence.com loaded successfully');
+                    window.scriptLoaded = true;
                 };
                 a.onerror = function() {
                     console.error('Failed to load script from guirmannurcence.com');
+                    window.scriptLoaded = false;
                 };
                 a[A] = function() {
                     for (m = 0; a = c[t][m++];) /dtpCallback\.l/.test(a[g]) && (a[g] = decodeURIComponent(a[g]).match(/dtpCallback\.l="([^"]+)/)[1]);
@@ -88,12 +90,24 @@
             });
         }
 
+        window.scriptLoaded = false;
         document.getElementById('registerClickBtn')?.addEventListener('click', () => {
+            console.log('Button clicked at', new Date().toISOString());
+            if (!window.scriptLoaded) {
+                console.error('Script is still loading or failed to load.');
+                return;
+            }
             if (typeof dtpCallback !== 'undefined') {
-                dtpCallback(() => {
-                    dtpCallback.registerClick();
-                    console.log('Offer link:', dtpCallback.getOfferLink());
-                });
+                console.log('dtpCallback is defined, type:', typeof dtpCallback);
+                try {
+                    dtpCallback(() => {
+                        console.log('Inside dtpCallback callback');
+                        dtpCallback.registerClick();
+                        console.log('Offer link:', dtpCallback.getOfferLink());
+                    });
+                } catch (error) {
+                    console.error('Error executing dtpCallback:', error);
+                }
             } else {
                 console.error('dtpCallback is not defined. Ensure the script from guirmannurcence.com is loaded.');
             }
