@@ -26,18 +26,49 @@ g.getTime())}}())})(window,document,localStorage,encodeURIComponent,"href","dtpC
     <button onclick="window.location.href='https://meyerweb.com/eric/tools/dencoder/?clickid={clickid}'">Offer 9</button>
     <button onclick="window.location.href='https://meyerweb.com/eric/tools/dencoder/?clickid={clickid}'">Offer 10</button><br><br>
 
-    <h3>Postback Links (Placeholder)</h3>
-    <button>Postback 1</button>
-    <button>Postback 2</button>
-    <button>Postback 3</button>
-    <button>Postback 4</button>
-    <button>Postback 5</button>
-    <button>Postback 6</button>
-    <button>Postback 7</button>
-    <button>Postback 8</button>
-    <button>Postback 9</button>
-    <button>Postback 10</button><br><br>
+    <h3>Offer Links</h3>
+    <div id="offer-links"></div>
 
     <a href="https://guirmannurcence.com/click">https://guirmannurcence.com/click</a>
+
+    <script>
+        dtpCallback(() => {
+            // Находим контейнер для списка ссылок
+            const offerLinksContainer = document.getElementById("offer-links");
+            
+            // Создаем список <ul>
+            const ul = document.createElement("ul");
+            
+            // Проверяем офферы с 1 по 10
+            for (let i = 1; i <= 10; i++) {
+                try {
+                    // Получаем ссылку на оффер
+                    const offerLink = dtpCallback.getOfferLink(i);
+                    if (offerLink) {
+                        // Создаем элемент списка
+                        const li = document.createElement("li");
+                        const a = document.createElement("a");
+                        a.href = "#"; // Устанавливаем временную ссылку, перенаправление обработаем в onclick
+                        a.textContent = `Offer ${i}: ${offerLink}`;
+                        a.onclick = function(e) {
+                            e.preventDefault(); // Предотвращаем стандартное поведение ссылки
+                            dtpCallback.registerClick(i); // Регистрируем клик для оффера i
+                            window.location = offerLink; // Перенаправляем на оффер
+                        };
+                        li.appendChild(a);
+                        ul.appendChild(li);
+                    }
+                } catch (e) {
+                    console.error(`Error fetching offer ${i}:`, e);
+                }
+            }
+            
+            // Добавляем список в контейнер
+            offerLinksContainer.appendChild(ul);
+            
+            // Генерируем ссылки для элементов с классом dtpcnt (если есть)
+            dtpCallback.generateLinks();
+        });
+    </script>
 </body>
 </html>
