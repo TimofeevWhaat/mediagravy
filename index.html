@@ -11,6 +11,7 @@
         th { background-color: #f2f2f2; }
         a { color: #007bff; text-decoration: none; }
         a:hover { text-decoration: underline; }
+        pre { white-space: pre-wrap; }
     </style>
     <script>
         (function(c,d,f,h,t,b,n,u,k,l,m,e,p,v,q){function r(a){var c=d.cookie.match(new RegExp("(^| )"+a+"=([^;]+)"));return c?c.pop():f.getItem(a+"-expires")&&+f.getItem(a+"-expires")>(new Date).getTime()?f.getItem(a):null}q="https:"===c.location.protocol?"secure; ":"";c[b]||(c[b]=function(a){c[b].state.callbackQueue.push(a)},c[b].state={callbackQueue:[]},c[b].registerConversion=function(a){c[b].state.callbackQueue.push(a)},function(){(m=/[?&]cpid(=([^&#]*)|&|#|$)/.exec(c.location.href))&&m[2]&&(e=m[2],
@@ -34,55 +35,73 @@ g.getTime())}}())})(window,document,localStorage,encodeURIComponent,"href","dtpC
         <tbody></tbody>
     </table>
     <script>
-        dtpCallback(() => {
+        dtpCallback((params) => {
             const tableBody = document.querySelector('#offers-table tbody');
-            const trackingDomain = 'https://guirmannurcence.com';
             const maxOffers = 50;
-            const offerNums = Array.from({ length: maxOffers }, (_, i) => i === 0 ? '' : `/${i + 1}`);
             const tokens = dtpCallback.getTokens();
             const createdLinks = [];
 
-            offerNums.forEach((num, index) => {
-                const originalHref = `${trackingDomain}/click${num}`;
+            // Generate links for up to 50 offers
+            for (let index = 0; index < maxOffers; index++) {
+                const offerNum = index === 0 ? '' : `/${index + 1}`;
+                const originalHref = `https://guirmannurcence.com/click${offerNum}`;
                 const row = document.createElement('tr');
                 const offerCell = document.createElement('td');
                 const a = document.createElement('a');
                 a.href = originalHref;
-                a.textContent = `Offer ${num || 'default'}`;
+                a.textContent = `Offer ${offerNum || 'default'}`;
                 offerCell.appendChild(a);
                 row.appendChild(offerCell);
                 tableBody.appendChild(row);
-                createdLinks.push({ row, originalHref, a, offerCell });
-            });
+                createdLinks.push({ row, originalHref, a, offerCell, index });
+            }
 
+            // Call generateLinks and wait briefly to ensure links are updated
             dtpCallback.generateLinks();
 
-            createdLinks.forEach(({ row, originalHref, a, offerCell }, index) => {
-                if (a.href === originalHref || a.href.includes('/click')) {
-                    tableBody.removeChild(row);
-                } else {
-                    const urlCell = document.createElement('td');
-                    urlCell.textContent = a.href;
-                    row.appendChild(urlCell);
+            setTimeout(() => {
+                createdLinks.forEach(({ row, originalHref, a, offerCell, index }) => {
+                    // Check if the link was updated by generateLinks
+                    if (a.href === originalHref || a.href.includes('/click')) {
+                        tableBody.removeChild(row); // Remove rows with invalid/unchanged links
+                    } else {
+                        // Register click event
+                        a.addEventListener('click', () => {
+                            dtpCallback.registerClick(index);
+                        });
 
-                    const params = {};
-                    const url = new URL(a.href);
-                    for (let [key, value] of url.searchParams.entries()) {
-                        params[key] = value;
+                        // Add full URL
+                        const urlCell = document.createElement('td');
+                        urlCell.textContent = a.href;
+                        row.appendChild(urlCell);
+
+                        // Extract and display offer parameters
+                        const params = {};
+                        const url = new URL(a.href);
+                        for (let [key, value] of url.searchParams.entries()) {
+                            params[key] = value;
+                        }
+                        const paramsCell = document.createElement('td');
+                        paramsCell.innerHTML = `<pre>${JSON.stringify(params, null, 2)}</pre>`;
+                        row.appendChild(paramsCell);
+
+                        // Display visitor tokens
+                        const tokensCell = document.createElement('td');
+                        tokensCell.innerHTML = `<pre>${JSON.stringify(tokens, null, 2)}</pre>`;
+                        row.appendChild(tokensCell);
                     }
-                    const paramsCell = document.createElement('td');
-                    paramsCell.textContent = JSON.stringify(params, null, 2);
-                    row.appendChild(paramsCell);
+                });
 
-                    const tokensCell = document.createElement('td');
-                    tokensCell.textContent = JSON.stringify(tokens, null, 2);
-                    row.appendChild(tokensCell);
-
-                    a.addEventListener('click', () => {
-                        dtpCallback.registerClick(index);
-                    });
+                // If no rows are left, display a message
+                if (tableBody.children.length === 0) {
+                    const row = document.createElement('tr');
+                    const cell = document.createElement('td');
+                    cell.colSpan = 4;
+                    cell.textContent = 'No valid offers available.';
+                    row.appendChild(cell);
+                    tableBody.appendChild(row);
                 }
-            });
+            }, 100); // Small delay to ensure generateLinks completes
         });
     </script>
 </body>
