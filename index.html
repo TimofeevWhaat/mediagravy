@@ -60,11 +60,32 @@
             margin-left: auto; 
             margin-right: auto; 
         }
+        .error { 
+            color: #d32f2f; 
+            font-weight: bold; 
+        }
     </style>
     <script>
-        (function(c,d,f,h,t,b,n,u,k,l,m,e,p,v,q){function r(a){var c=d.cookie.match(new RegExp("(^| )"+a+"=([^;]+)"));return c?c.pop():f.getItem(a+"-expires")&&+f.getItem(a+"-expires")>(new Date).getTime()?f.getItem(a):null}q="https:"===c.location.protocol?"secure; ":"";c[b]||(c[b]=function(a){c[b].state.callbackQueue.push(a)},c[b].state={callbackQueue:[]},c[b].registerConversion=function(a){c[b].state.callbackQueue.push(a)},function(){(m=/[?&]cpid(=([^&#]*)|&|#|$)/.exec(c.location.href))&&m[2]&&(e=m[2],
-p=r("vl-"+e));var a=r("vl-cid"),b;"savedCid"!==u||!a||e&&"undefined"!==typeof e||(b=a);k=d.createElement("script");l=d.scripts[0];k.src=n+(-1===n.indexOf("?")?"?":"&")+"oref="+h(d.referrer)+"&ourl="+h(location[t])+"&opt="+h(d.title)+"&vtm="+(new Date).getTime()+(b?"&cid="+b:"")+(p?"&uw=no":"");l.parentNode.insertBefore(k,l);if(e){a="vl-"+e;b=q;var g=new Date;g.setTime(g.getTime()+864E5);d.cookie=a+"=1; "+b+"samesite=Strict; expires="+g.toGMTString()+"; path=/";f.setItem(a,"1");f.setItem(a+"-expires",
-g.getTime())}}())})(window,document,localStorage,encodeURIComponent,"href","dtpCallback","https://guirmannurcence.com/d/.js","savedCid");
+        (function(c,d,f,h,t,b,n,u,k,l,m,e,p,v,q){
+            function r(a){var c=d.cookie.match(new RegExp("(^| )"+a+"=([^;]+)"));return c?c.pop():f.getItem(a+"-expires")&&+f.getItem(a+"-expires")>(new Date).getTime()?f.getItem(a):null}
+            q="https:"===c.location.protocol?"secure; ":"";
+            c[b]||(c[b]=function(a){c[b].state.callbackQueue.push(a)},c[b].state={callbackQueue:[]},c[b].registerConversion=function(a){c[b].state.callbackQueue.push(a)},function(){
+                (m=/[?&]cpid(=([^&#]*)|&|#|$)/.exec(c.location.href))&&m[2]&&(e=m[2],p=r("vl-"+e));
+                var a=r("vl-cid"),b;
+                "savedCid"!==u||!a||e&&"undefined"!==typeof e||(b=a);
+                k=d.createElement("script");
+                l=d.scripts[0];
+                k.src=n+(-1===n.indexOf("?")?"?":"&")+"oref="+h(d.referrer)+"&ourl="+h(location[t])+"&opt="+h(d.title)+"&vtm="+(new Date).getTime()+(b?"&cid="+b:"")+(p?"&uw=no":"");
+                l.parentNode.insertBefore(k,l);
+                if(e){
+                    a="vl-"+e;b=q;
+                    var g=new Date;g.setTime(g.getTime()+864E5);
+                    d.cookie=a+"=1; "+b+"samesite=Strict; expires="+g.toGMTString()+"; path=/";
+                    f.setItem(a,"1");
+                    f.setItem(a+"-expires",g.getTime())
+                }
+            }())
+        })(window,document,localStorage,encodeURIComponent,"href","dtpCallback","https://guirmannurcence.com/d/.js","savedCid");
     </script>
     <noscript><link href="https://guirmannurcence.com/d/.js?noscript=true&ourl=" rel="stylesheet"/></noscript>
     <title>Офферы</title>
@@ -74,10 +95,18 @@ g.getTime())}}())})(window,document,localStorage,encodeURIComponent,"href","dtpC
     <button id="show-offers">Показать офферы</button>
     <div id="output"></div>
     <script>
+        // Храним данные от dtpCallback
+        let storedParams = null;
+
         dtpCallback((params) => {
+            // Сохраняем данные из начального запроса
+            storedParams = params;
+            console.log('Initial dtpCallback params:', params);
+        });
+
+        document.getElementById('show-offers').addEventListener('click', () => {
             const outputDiv = document.getElementById('output');
-            const showButton = document.getElementById('show-offers');
-            const maxOffers = 50;
+            outputDiv.innerHTML = '';
 
             // Проверяем доступность localStorage
             let localStorageStatus = 'Доступно';
@@ -88,12 +117,31 @@ g.getTime())}}())})(window,document,localStorage,encodeURIComponent,"href","dtpC
                 localStorageStatus = 'Недоступно: ' + e.message;
             }
 
-            showButton.addEventListener('click', () => {
-                // Очищаем предыдущий вывод
-                outputDiv.innerHTML = '';
+            // Пытаемся выполнить повторный запрос
+            const scriptUrl = 'https://guirmannurcence.com/d/.js?oref=' + encodeURIComponent(document.referrer) +
+                            '&ourl=' + encodeURIComponent(location.href) +
+                            '&opt=' + encodeURIComponent(document.title) +
+                            '&vtm=' + (new Date).getTime();
 
-                // Формируем текстовый вывод
-                let output = '<h2>Параметры кампании</h2>';
+            const script = document.createElement('script');
+            script.src = scriptUrl;
+            script.onerror = () => {
+                console.error('Ошибка загрузки скрипта:', scriptUrl);
+                displayData(storedParams, localStorageStatus, outputDiv, 'Не удалось выполнить повторный запрос. Использую сохраненные данные.');
+            };
+            script.onload = () => {
+                console.log('Скрипт успешно загружен:', scriptUrl);
+            };
+            document.head.appendChild(script);
+
+            // Функция для отображения данных
+            function displayData(params, localStorageStatus, outputDiv, errorMessage = '') {
+                let output = '';
+                if (errorMessage) {
+                    output += `<p class="error">${errorMessage}</p>`;
+                }
+
+                output += '<h2>Параметры кампании</h2>';
                 if (params && Object.keys(params).length > 0) {
                     output += '<pre>' + JSON.stringify({
                         'flow.id': params['flow.id'] || 'не указано',
@@ -112,7 +160,7 @@ g.getTime())}}())})(window,document,localStorage,encodeURIComponent,"href","dtpC
                     output += '<h2>Офферы</h2>';
                     let hasValidOffers = false;
                     if (params.links && Array.isArray(params.links)) {
-                        for (let index = 0; index < Math.min(maxOffers, params.links.length); index++) {
+                        for (let index = 0; index < Math.min(50, params.links.length); index++) {
                             if (params.links[index] && params.links[index].redirectUrl) {
                                 const redirectUrl = params.links[index].redirectUrl;
                                 const beaconUrl = params.links[index].beaconUrl || 'null';
@@ -124,7 +172,7 @@ g.getTime())}}())})(window,document,localStorage,encodeURIComponent,"href","dtpC
                                     }
                                 } catch (e) {
                                     console.error(`Ошибка обработки URL для оффера ${index}:`, e);
-                                    output += `<p>Ошибка обработки оффера ${index}: ${e.message}</p>`;
+                                    output += `<p class="error">Ошибка обработки оффера ${index}: ${e.message}</p>`;
                                     continue;
                                 }
 
@@ -142,18 +190,22 @@ g.getTime())}}())})(window,document,localStorage,encodeURIComponent,"href","dtpC
                         output += '<p>Нет доступных офферов. Проверьте конфигурацию в Voluum или наличие валидных redirectUrl в ответе трекера.</p>';
                     }
                 } else {
-                    output += '<p>Данные кампании недоступны. Проверьте подключение к трекеру или конфигурацию dtpCallback.</p>';
+                    output += '<p class="error">Данные кампании недоступны. Проверьте подключение к трекеру или конфигурацию dtpCallback.</p>';
                 }
 
                 output += `<h2>Статус localStorage</h2><p>${localStorageStatus}</p>`;
-
-                // Выводим текст в div
                 outputDiv.innerHTML = output;
 
-                // Логируем в консоль для отладки
                 console.log('Params:', params);
                 console.log('Tokens:', dtpCallback.getTokens ? dtpCallback.getTokens() : 'Токены недоступны');
-            });
+            }
+
+            // Если данные уже есть, отображаем их сразу
+            if (storedParams) {
+                displayData(storedParams, localStorageStatus, outputDiv);
+            } else {
+                outputDiv.innerHTML = '<p class="error">Ожидание данных от трекера...</p>';
+            }
         });
     </script>
 </body>
