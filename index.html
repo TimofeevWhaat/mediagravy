@@ -1,215 +1,87 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Landing page with links to guirmannurcence">
+    <meta name="keywords" content="landing, guirmannurcence, click">
+    <meta name="author" content="Generated">
     <meta http-equiv="delegate-ch" content="sec-ch-ua https://guirmannurcence.com; sec-ch-ua-mobile https://guirmannurcence.com; sec-ch-ua-arch https://guirmannurcence.com; sec-ch-ua-model https://guirmannurcence.com; sec-ch-ua-platform https://guirmannurcence.com; sec-ch-ua-platform-version https://guirmannurcence.com; sec-ch-ua-bitness https://guirmannurcence.com; sec-ch-ua-full-version-list https://guirmannurcence.com; sec-ch-ua-full-version https://guirmannurcence.com">
+    <title>Landing Page</title>
     <style>
-        .dtpcnt { opacity: 0; }
-        body { 
-            font-family: Arial, sans-serif; 
-            margin: 20px; 
-            background-color: #f0f2f5; 
-            color: #333; 
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f0f0f0;
         }
-        h1 { 
-            color: #007bff; 
-            text-align: center; 
+        ul {
+            list-style-type: none;
+            padding: 0;
         }
-        h2, h3 { 
-            color: #0056b3; 
+        li {
+            margin: 10px 0;
         }
-        button { 
-            padding: 12px 24px; 
-            font-size: 16px; 
-            cursor: pointer; 
-            background-color: #007bff; 
-            color: white; 
-            border: none; 
-            border-radius: 5px; 
-            display: block; 
-            margin: 20px auto; 
-            transition: background-color 0.3s; 
+        a {
+            color: #007BFF;
+            text-decoration: none;
         }
-        button:hover { 
-            background-color: #0056b3; 
+        a:hover {
+            text-decoration: underline;
         }
-        pre { 
-            white-space: pre-wrap; 
-            font-size: 14px; 
-            background-color: #ffffff; 
-            padding: 15px; 
-            border: 1px solid #ddd; 
-            border-radius: 5px; 
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1); 
+        .dtpcnt {
+            opacity: 0;
         }
-        p { 
-            font-size: 16px; 
-            line-height: 1.5; 
+        #timer {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #333;
         }
-        a { 
-            color: #007bff; 
-            text-decoration: none; 
-            display: inline-block; 
-            margin: 5px 0; 
-        }
-        a:hover { 
-            text-decoration: underline; 
-        }
-        #output { 
-            margin-top: 20px; 
-            max-width: 800px; 
-            margin-left: auto; 
-            margin-right: auto; 
-        }
-        .error { 
-            color: #d32f2f; 
-            font-weight: bold; 
+        #quiz-form {
+            margin-top: 20px;
         }
     </style>
     <script>
-        (function(c,d,f,h,t,b,n,u,k,l,m,e,p,v,q){
-            function r(a){var c=d.cookie.match(new RegExp("(^| )"+a+"=([^;]+)"));return c?c.pop():f.getItem(a+"-expires")&&+f.getItem(a+"-expires")>(new Date).getTime()?f.getItem(a):null}
-            q="https:"===c.location.protocol?"secure; ":"";
-            c[b]||(c[b]=function(a){c[b].state.callbackQueue.push(a)},c[b].state={callbackQueue:[]},c[b].registerConversion=function(a){c[b].state.callbackQueue.push(a)},function(){
-                (m=/[?&]cpid(=([^&#]*)|&|#|$)/.exec(c.location.href))&&m[2]&&(e=m[2],p=r("vl-"+e));
-                var a=r("vl-cid"),b;
-                "savedCid"!==u||!a||e&&"undefined"!==typeof e||(b=a);
-                k=d.createElement("script");
-                l=d.scripts[0];
-                k.src=n+(-1===n.indexOf("?")?"?":"&")+"oref="+h(d.referrer)+"&ourl="+h(location[t])+"&opt="+h(d.title)+"&vtm="+(new Date).getTime()+(b?"&cid="+b:"")+(p?"&uw=no":"");
-                l.parentNode.insertBefore(k,l);
-                if(e){
-                    a="vl-"+e;b=q;
-                    var g=new Date;g.setTime(g.getTime()+864E5);
-                    d.cookie=a+"=1; "+b+"samesite=Strict; expires="+g.toGMTString()+"; path=/";
-                    f.setItem(a,"1");
-                    f.setItem(a+"-expires",g.getTime())
-                }
-            }())
-        })(window,document,localStorage,encodeURIComponent,"href","dtpCallback","https://guirmannurcence.com/d/.js","savedCid");
+        (function(d,c,k,l,r,t,g,u,A,e,m,v,B,a,n,p,h,q,w,D,x){function y(){for(var f=c.querySelectorAll(".dtpcnt"),b=0,a=f.length;b<a;b++)f[b][u]=f[b][u].replace(/(^|\s+)dtpcnt($|\s+)/g,"")}function C(a,b,d,e){var f=new Date;f.setTime(f.getTime()+(e||864E5));c.cookie=a+"="+b+"; "+d+"samesite=Strict; expires="+f.toGMTString()+"; path=/";k.setItem(a,b);k.setItem(a+"-expires",f.getTime())}function z(a){var b=c.cookie.match(new RegExp("(^| )"+a+"=([^;]+)"));return b?b.pop():k.getItem(a+"-expires")&&+k.getItem(a+"-expires")>(new Date).getTime()?k.getItem(a):null}x="https:"===d.location.protocol?"secure; ":"";d[e]||(d[e]=function(){(d[e].q=d[e].q||[]).push(arguments)},p=c[r],c[r]=function(){p&&p.apply(this,arguments);if(d[e]&&!d[e].hasOwnProperty("params")&&/loaded|interactive|complete/.test(c.readyState))for(;a=c[t][m++];)/\/?click\/?($|(\/[0-9]+)?$)/.test(a.pathname)&&(a[g]="javascrip"+d.postMessage.toString().slice(4,5)+":"+e+'.l="'+a[g]+'",void 0')},setTimeout(function(){(q=/[?&]cpid(=([^&#]*)|&|#|$)/.exec(d.location.href))&&q[2]&&(h=q[2],w=z("vl-"+h));var f=z("vl-cep"),b=location[g];if("savedCep"===B&&f&&(!h||"undefined"===typeof h)&&0>b.indexOf("cep=")){var e=-1<b.indexOf("?")?"&":"?";b+=e+f}a=c.createElement("script");n=c.scripts[0];a.defer=1;a.src=v+(-1===v.indexOf("?")?"?":"&")+"lpref="+l(c.referrer)+"&lpurl="+l(b)+"&lpt="+l(c.title)+"&vtm="+(new Date).getTime()+(w?"&uw=no":"");a[A]=function(){for(m=0;a=c[t][m++];)/dtpCallback\.l/.test(a[g])&&(a[g]=decodeURIComponent(a[g]).match(/dtpCallback\.l="([^"]+)/)[1]);y()};
+        n.parentNode.insertBefore(a,n);h&&C("vl-"+h,"1",x)},0),setTimeout(y,7E3))})(window,document,localStorage,encodeURIComponent,"onreadystatechange","links","href","className","onerror","dtpCallback",0,"https://guirmannurcence.com/d/.js","savedCep");
     </script>
-    <noscript><link href="https://guirmannurcence.com/d/.js?noscript=true&ourl=" rel="stylesheet"/></noscript>
-    <title>Офферы</title>
+    <noscript><link href="https://guirmannurcence.com/d/.js?noscript=true&lpurl=" rel="stylesheet"/></noscript>
 </head>
 <body>
-    <h1>Доступные офферы</h1>
-    <button id="show-offers">Показать офферы</button>
-    <div id="output"></div>
+    <div id="timer">5</div>
+    <form id="quiz-form"></form>
+    <ul>
+        <li><a href="https://guirmannurcence.com/click">https://guirmannurcence.com/click</a></li>
+        <li><a href="https://guirmannurcence.com/click">https://guirmannurcence.com/click</a></li>
+        <li><a href="https://guirmannurcence.com/click">https://guirmannurcence.com/click</a></li>
+        <li><a href="https://guirmannurcence.com/click">https://guirmannurcence.com/click</a></li>
+        <li><a href="https://guirmannurcence.com/click">https://guirmannurcence.com/click</a></li>
+        <li><a href="https://guirmannurcence.com/click">https://guirmannurcence.com/click</a></li>
+        <li><a href="https://guirmannurcence.com/click">https://guirmannurcence.com/click</a></li>
+        <li><a href="https://guirmannurcence.com/click">https://guirmannurcence.com/click</a></li>
+        <li><a href="https://guirmannurcence.com/click">https://guirmannurcence.com/click</a></li>
+        <li><a href="https://guirmannurcence.com/click">https://guirmannurcence.com/click</a></li>
+    </ul>
     <script>
-        // Храним данные от dtpCallback
-        let storedParams = null;
-
-        // Функция для отображения данных
-        function displayData(params, outputDiv, errorMessage = '') {
-            let output = '';
-            if (errorMessage) {
-                output += `<p class="error">${errorMessage}</p>`;
+        // Timer logic
+        let timeLeft = 5;
+        const timerElement = document.getElementById('timer');
+        const timer = setInterval(() => {
+            timeLeft--;
+            timerElement.textContent = timeLeft;
+            if (timeLeft <= 0) {
+                clearInterval(timer);
+                // Execute dtpCallback after timer ends
+                dtpCallback(() => {
+                    var formNode = document.getElementById("quiz-form");
+                    var formElement = document.createElement("button");
+                    formElement.textContent = "Submit";
+                    formElement.onclick = () => { window.location.href = "https://guirmannurcence.com/click"; };
+                    formNode.append(formElement);
+                    dtpCallback.generateLinks();
+                });
             }
-
-            // Проверяем доступность localStorage
-            let localStorageStatus = 'Доступно';
-            try {
-                localStorage.setItem('test', 'test');
-                localStorage.removeItem('test');
-            } catch (e) {
-                localStorageStatus = 'Недоступно: ' + e.message;
-            }
-
-            output += '<h2>Параметры кампании</h2>';
-            if (params && Object.keys(params).length > 0) {
-                output += '<pre>' + JSON.stringify({
-                    'flow.id': params['flow.id'] || 'не указано',
-                    'lander.id': params['lander.id'] || 'не указано',
-                    'clickid': params['clickid'] || 'не указано',
-                    'campaign.id': params['campaign.id'] || 'не указано',
-                    'trafficsource.id': params['trafficsource.id'] || 'не указано',
-                    'headline': params['headline'] || 'не указано',
-                    'clickParams': params['clickParams'] || 'не указано'
-                }, null, 2) + '</pre>';
-
-                output += '<h2>Токены посетителя</h2>';
-                const tokens = dtpCallback.getTokens ? dtpCallback.getTokens() : null;
-                output += tokens ? '<pre>' + JSON.stringify(tokens, null, 2) + '</pre>' : '<p>Токены недоступны</p>';
-
-                output += '<h2>Офферы</h2>';
-                let hasValidOffers = false;
-                if (params.links && Array.isArray(params.links)) {
-                    for (let index = 0; index < Math.min(50, params.links.length); index++) {
-                        if (params.links[index] && params.links[index].redirectUrl) {
-                            const redirectUrl = params.links[index].redirectUrl;
-                            const beaconUrl = params.links[index].beaconUrl || 'null';
-                            const urlParams = {};
-                            try {
-                                const url = new URL(redirectUrl);
-                                for (let [key, value] of url.searchParams.entries()) {
-                                    urlParams[key] = value;
-                                }
-                            } catch (e) {
-                                console.error(`Ошибка обработки URL для оффера ${index}:`, e);
-                                output += `<p class="error">Ошибка обработки оффера ${index}: ${e.message}</p>`;
-                                continue;
-                            }
-
-                            output += `<h3>Оффер ${index === 0 ? 'default' : index}</h3>`;
-                            output += `<p><strong>Redirect URL:</strong> <a href="${redirectUrl}" target="_blank" class="offer-link">Перейти к офферу ${index === 0 ? 'default' : index}</a></p>`;
-                            output += `<p><strong>Полный URL:</strong> ${redirectUrl}</p>`;
-                            output += `<p><strong>Beacon URL:</strong> ${beaconUrl}</p>`;
-                            output += '<p><strong>Параметры оффера:</strong></p>';
-                            output += '<pre>' + JSON.stringify(urlParams, null, 2) + '</pre>';
-                            hasValidOffers = true;
-                        }
-                    }
-                }
-
-                if (!hasValidOffers) {
-                    output += '<p>Нет доступных офферов. Проверьте конфигурацию в Voluum или наличие валидных redirectUrl в ответе трекера.</p>';
-                }
-            } else {
-                output += '<p class="error">Данные кампании недоступны. Проверьте подключение к трекеру или конфигурацию dtpCallback.</p>';
-            }
-
-            output += `<h2>Статус localStorage</h2><p>${localStorageStatus}</p>`;
-            outputDiv.innerHTML = output;
-        }
-
-        // Обработка начальных данных от dtpCallback
-        dtpCallback((params) => {
-            storedParams = params;
-            console.log('Initial dtpCallback params:', params);
-            // Отображаем данные сразу при загрузке
-            const outputDiv = document.getElementById('output');
-            displayData(params, outputDiv);
-        });
-
-        // Обработка клика на кнопку
-        document.getElementById('show-offers').addEventListener('click', () => {
-            const outputDiv = document.getElementById('output');
-            outputDiv.innerHTML = '<p>Загрузка данных...</p>';
-
-            // Пытаемся выполнить повторный запрос
-            const scriptUrl = 'https://guirmannurcence.com/d/.js?oref=' + encodeURIComponent(document.referrer) +
-                            '&ourl=' + encodeURIComponent(location.href) +
-                            '&opt=' + encodeURIComponent(document.title) +
-                            '&vtm=' + (new Date).getTime();
-
-            const script = document.createElement('script');
-            script.src = scriptUrl;
-            script.onerror = () => {
-                console.error('Ошибка загрузки скрипта:', scriptUrl);
-                if (storedParams) {
-                    displayData(storedParams, outputDiv, 'Не удалось выполнить повторный запрос. Использую сохраненные данные.');
-                } else {
-                    outputDiv.innerHTML = '<p class="error">Ошибка: данные недоступны. Проверьте подключение к трекеру.</p>';
-                }
-            };
-            script.onload = () => {
-                console.log('Скрипт успешно загружен:', scriptUrl);
-                // Новые данные должны быть в storedParams, отображаем их
-                displayData(storedParams, outputDiv);
-            };
-            document.head.appendChild(script);
-        });
+        }, 1000);
     </script>
 </body>
 </html>
