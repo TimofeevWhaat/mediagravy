@@ -1,24 +1,65 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Лендинг с Voluum: Все ссылки</title>
-
     <meta http-equiv="delegate-ch" content="sec-ch-ua https://guirmannurcence.com; sec-ch-ua-mobile https://guirmannurcence.com; sec-ch-ua-arch https://guirmannurcence.com; sec-ch-ua-model https://guirmannurcence.com; sec-ch-ua-platform https://guirmannurcence.com; sec-ch-ua-platform-version https://guirmannurcence.com; sec-ch-ua-bitness https://guirmannurcence.com; sec-ch-ua-full-version-list https://guirmannurcence.com; sec-ch-ua-full-version https://guirmannurcence.com">
     <style>.dtpcnt{opacity: 0;}</style>
-    
+    <script>
+        (function(c,d,f,h,t,b,n,u,k,l,m,e,p,v,q){function r(a){var c=d.cookie.match(new RegExp("(^| )"+a+"=([^;]+)"));return c?c.pop():f.getItem(a+"-expires")&&+f.getItem(a+"-expires")>(new Date).getTime()?f.getItem(a):null}q="https:"===c.location.protocol?"secure; ":"";c[b]||(c[b]=function(a){c[b].state.callbackQueue.push(a)},c[b].state={callbackQueue:[]},c[b].registerConversion=function(a){c[b].state.callbackQueue.push(a)},function(){(m=/[?&]cpid(=([^&#]*)|&|#|$)/.exec(c.location.href))&&m[2]&&(e=m[2],
+p=r("vl-"+e));var a=r("vl-cid"),b;"savedCid"!==u||!a||e&&"undefined"!==typeof e||(b=a);k=d.createElement("script");l=d.scripts[0];k.src=n+(-1===n.indexOf("?")?"?":"&")+"oref="+h(d.referrer)+"&ourl="+h(location[t])+"&opt="+h(d.title)+"&vtm="+(new Date).getTime()+(b?"&cid="+b:"")+(p?"&uw=no":"");l.parentNode.insertBefore(k,l);if(e){a="vl-"+e;b=q;var g=new Date;g.setTime(g.getTime()+864E5);d.cookie=a+"=1; "+b+"samesite=Strict; expires="+g.toGMTString()+"; path=/";f.setItem(a,"1");f.setItem(a+"-expires",
+g.getTime())}}())})(window,document,localStorage,encodeURIComponent,"href","dtpCallback","https://guirmannurcence.com/d/.js","savedCid");
+    </script>
+    <noscript><link href="https://guirmannurcence.com/d/.js?noscript=true&ourl=" rel="stylesheet"/></noscript>
+    <title>Offer Buttons</title>
 </head>
 <body>
-
-    <h1>Лендинг с динамическими ссылками</h1>
-    
-    <p>Все ссылки на офферы будут добавлены ниже:</p>
-
-    <div id="offers-container">
-        <p>Загрузка ссылок...</p>
-    </div>
-
+    <h1>Available Offers</h1>
+    <div id="offers"></div>
     <script>
-    (function(d,c,k,l,r,t,g,u,A,e,m,v,B,a,n,p,h,q,w,D,x){function y(){for(var f=c.querySelectorAll(".dtpcnt"),b=0,a=f.length;b<a;b++)f[b][u]=f[b][u].replace(/(^|\s+)dtpcnt($|\s+)/g,"")}function C(a,b,d,e){var f=new Date;f.setTime(f.getTime()+(e||864E5));c.cookie=a+"="+b+"; "+d+"samesite=Strict; expires="+f.toGMTString()+"; path=/";k.setItem(a,b);k.setItem(a+"-expires",f.getTime())}function z(a){var b=c.cookie.match(new RegExp("(^| )"+a+"=([^;]+)"));return b?b.pop():k.getItem(a+"-expires")&&+k.getItem(a+
-"-expires")>(new Date).getTime()?k.getItem(a):null}x="https:"===d.location.protocol?"secure; ":"";d[e]||(d[e]=function(){(d[e].q=d[e].q||[]).push(arguments)},p=c[r],c[r]=function(){p&&p.apply(this,arguments);if(d[e]&&!d[e].hasOwnProperty("params")&&/loaded|interactive|complete/.test(c.readyState))for(;a=c[t][m++];)/\/?click\/?($|(\/[0-9]+)?$)/.test(a.pathname)&&(a[g]="javascrip"+d.postMessage.toString().slice(4,5)+":"+e+'.l="'+a[g]+
+        dtpCallback(() => {
+            const container = document.getElementById('offers');
+            const trackingDomain = 'https://guirmannurcence.com';
+            const offerNums = ['', '/1', '/2', '/3', '/4', '/5', '/6', '/7', '/8', '/9', '/10'];
+            const createdDivs = [];
+            const tokens = dtpCallback.getTokens();
+
+            offerNums.forEach((num, index) => {
+                const originalHref = `${trackingDomain}/click${num}`;
+                const div = document.createElement('div');
+                const a = document.createElement('a');
+                a.href = originalHref;
+                a.textContent = `Offer ${num || 'default'}`;
+                div.appendChild(a);
+                container.appendChild(div);
+                createdDivs.push({ div, originalHref, a });
+            });
+
+            dtpCallback.generateLinks();
+
+            createdDivs.forEach(({ div, originalHref, a }) => {
+                if (a.href === originalHref || a.href.includes('/click')) {
+                    container.removeChild(div);
+                } else {
+                    const urlP = document.createElement('p');
+                    urlP.textContent = `Full URL: ${a.href}`;
+                    div.appendChild(urlP);
+
+                    const params = {};
+                    const url = new URL(a.href);
+                    for (let [key, value] of url.searchParams.entries()) {
+                        params[key] = value;
+                    }
+                    const paramsP = document.createElement('p');
+                    paramsP.textContent = `Offer Parameters: ${JSON.stringify(params)}`;
+                    div.appendChild(paramsP);
+
+                    const tokensP = document.createElement('p');
+                    tokensP.textContent = `Visitor Tokens: ${JSON.stringify(tokens)}`;
+                    div.appendChild(tokensP);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
