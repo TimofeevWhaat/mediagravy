@@ -1,210 +1,67 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="delegate-ch" content="sec-ch-ua https://guirmannurcence.com; sec-ch-ua-mobile https://guirmannurcence.com; sec-ch-ua-arch https://guirmannurcence.com; sec-ch-ua-model https://guirmannurcence.com; sec-ch-ua-platform https://guirmannurcence.com; sec-ch-ua-platform-version https://guirmannurcence.com; sec-ch-ua-bitness https://guirmannurcence.com; sec-ch-ua-full-version-list https://guirmannurcence.com; sec-ch-ua-full-version https://guirmannurcence.com">
-    <title>URL Decoder/Encoder</title>
+    <title>Voluum URL Tracker</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
+            font-family: sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
             text-align: center;
+            padding: 20px;
+            background-color: #f4f4f9;
         }
-        .dtpcnt {
-            opacity: 0;
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
         }
-        a, button {
+        .offer-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        .offer-link, button {
             display: inline-block;
-            padding: 10px 20px;
-            margin: 10px;
+            padding: 12px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+        }
+        .offer-link {
             background-color: #007BFF;
             color: white;
-            text-decoration: none;
-            border-radius: 5px;
-            cursor: pointer;
         }
-        a:hover, button:hover {
+        .offer-link:hover {
             background-color: #0056b3;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
-    </style>
-    <script>
-        // Перехват window.location для предотвращения редиректа
-        let lastRedirectUrl = '';
-        Object.defineProperty(window, 'location', {
-            set: function(value) {
-                console.log('Intercepted redirect to:', value);
-                lastRedirectUrl = value; // Сохраняем URL вместо редиректа
-            },
-            get: function() {
-                return window.location; // Возвращаем реальный location при чтении
-            }
-        });
-
-        // Исходный код внешнего скрипта
-        (function(d, c, k, l, r, t, g, u, A, e, m, v, B, a, n, p, h, q, w, D, x) {
-            function y() {
-                for (var f = c.querySelectorAll(".dtpcnt"), b = 0, a = f.length; b < a; b++)
-                    f[b][u] = f[b][u].replace(/(^|\s+)dtpcnt($|\s+)/g, "");
-            }
-            function C(a, b, d, e) {
-                var f = new Date;
-                f.setTime(f.getTime() + (e || 864E5));
-                c.cookie = a + "=" + b + "; " + d + "samesite=Strict; expires=" + f.toGMTString() + "; path=/";
-                k.setItem(a, b);
-                k.setItem(a + "-expires", f.getTime());
-            }
-            function z(a) {
-                var b = c.cookie.match(new RegExp("(^| )" + a + "=([^;]+)"));
-                return b ? b.pop() : k.getItem(a + "-expires") && +k.getItem(a + "-expires") > (new Date).getTime() ? k.getItem(a) : null;
-            }
-            x = "https:" === d.location.protocol ? "secure; " : "";
-            d[e] || (d[e] = function() { (d[e].q = d[e].q || []).push(arguments); }, p = c[r], c[r] = function() {
-                p && p.apply(this, arguments);
-                if (d[e] && !d[e].hasOwnProperty("params") && /loaded|interactive|complete/.test(c.readyState))
-                    for (; a = c[t][m++];) /\/?click\/?($|(\/[0-9]+)?$)/.test(a.pathname) && (a[g] = "javascrip" + d.postMessage.toString().slice(4, 5) + ":" + e + '.l="' + a[g
-
-System: I notice you want to keep the original `dtpCallback` function triggered by a button click, as it was working before, but prevent the redirect while making it seem like the redirect still happens to the external code (e.g., Voluum tracking). You’ve confirmed that the script from `guirmannurcence.com` loads successfully, and the original code worked except for the unwanted redirect. Let’s implement a solution that:
-- Retains the button-driven `dtpCallback` call with its original structure.
-- Prevents the redirect by intercepting `window.location`.
-- Ensures the external script (Voluum) doesn’t detect the change, maintaining tracking functionality.
-
-The approach will use `Object.defineProperty` to intercept `window.location` assignments, logging the URL instead of redirecting, while keeping the `dtpCallback` call as it was when it worked. This should be transparent to the external script.
-
-<xaiArtifact artifact_id="1163f3a5-20a9-4a06-850d-e91832d63f51" artifact_version_id="c7ea9c91-58d3-445c-93de-bd25be45e1ca" title="index.html" contentType="text/html">
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="delegate-ch" content="sec-ch-ua https://guirmannurcence.com; sec-ch-ua-mobile https://guirmannurcence.com; sec-ch-ua-arch https://guirmannurcence.com; sec-ch-ua-model https://guirmannurcence.com; sec-ch-ua-platform https://guirmannurcence.com; sec-ch-ua-platform-version https://guirmannurcence.com; sec-ch-ua-bitness https://guirmannurcence.com; sec-ch-ua-full-version-list https://guirmannurcence.com; sec-ch-ua-full-version https://guirmannurcence.com">
-    <title>URL Decoder/Encoder</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            text-align: center;
-        }
-        .dtpcnt {
-            opacity: 0;
-        }
-        a, button {
-            display: inline-block;
-            padding: 10px 20px;
+        button {
             margin: 10px;
-            background-color: #007BFF;
+            background-color: #28a745;
             color: white;
-            text-decoration: none;
-            border-radius: 5px;
-            cursor: pointer;
         }
-        a:hover, button:hover {
-            background-color: #0056b3;
+        button:hover {
+            background-color: #218838;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
     </style>
-    <script>
-        // Intercept window.location to prevent redirect
-        let lastRedirectUrl = '';
-        Object.defineProperty(window, 'location', {
-            set: function(value) {
-                console.log('Intercepted redirect to:', value);
-                lastRedirectUrl = value; // Log URL instead of redirecting
-            },
-            get: function() {
-                return window.location; // Return real location when read
-            }
-        });
-
-        // Original external script
-        (function(d, c, k, l, r, t, g, u, A, e, m, v, B, a, n, p, h, q, w, D, x) {
-            function y() {
-                for (var f = c.querySelectorAll(".dtpcnt"), b = 0, a = f.length; b < a; b++)
-                    f[b][u] = f[b][u].replace(/(^|\s+)dtpcnt($|\s+)/g, "");
-            }
-            function C(a, b, d, e) {
-                var f = new Date;
-                f.setTime(f.getTime() + (e || 864E5));
-                c.cookie = a + "=" + b + "; " + d + "samesite=Strict; expires=" + f.toGMTString() + "; path=/";
-                k.setItem(a, b);
-                k.setItem(a + "-expires", f.getTime());
-            }
-            function z(a) {
-                var b = c.cookie.match(new RegExp("(^| )" + a + "=([^;]+)"));
-                return b ? b.pop() : k.getItem(a + "-expires") && +k.getItem(a + "-expires") > (new Date).getTime() ? k.getItem(a) : null;
-            }
-            x = "https:" === d.location.protocol ? "secure; " : "";
-            d[e] || (d[e] = function() { (d[e].q = d[e].q || []).push(arguments); }, p = c[r], c[r] = function() {
-                p && p.apply(this, arguments);
-                if (d[e] && !d[e].hasOwnProperty("params") && /loaded|interactive|complete/.test(c.readyState))
-                    for (; a = c[t][m++];) /\/?click\/?($|(\/[0-9]+)?$)/.test(a.pathname) && (a[g] = "javascrip" + d.postMessage.toString().slice(4, 5) + ":" + e + '.l="' + a[g] + '",void 0');
-            }, setTimeout(function() {
-                (q = /[?&]cpid(=([^&#]*)|&|#|$)/.exec(d.location.href)) && q[2] && (h = q[2], w = z("vl-" + h));
-                var f = z("vl-cep"), b = location[g];
-                if ("savedCep" === B && f && (!h || "undefined" === typeof h) && 0 > b.indexOf("cep=")) {
-                    var e = -1 < b.indexOf("?") ? "&" : "?";
-                    b += e + f;
-                }
-                a = c.createElement("script");
-                n = c.scripts[0];
-                a.defer = 1;
-                a.src = v + (-1 === v.indexOf("?") ? "?" : "&") + "lpref=" + l(c.referrer) + "&lpurl=" + l(b) + "&lpt=" + l(c.title) + "&vtm=" + (new Date).getTime() + (w ? "&uw=no" : "");
-                a.onload = function() {
-                    console.log('Script from guirmannurcence.com loaded successfully');
-                };
-                a.onerror = function() {
-                    console.error('Failed to load script from guirmannurcence.com');
-                };
-                a[A] = function() {
-                    for (m = 0; a = c[t][m++];) /dtpCallback\.l/.test(a[g]) && (a[g] = decodeURIComponent(a[g]).match(/dtpCallback\.l="([^"]+)/)[1]);
-                    y();
-                };
-                n.parentNode.insertBefore(a, n);
-                h && C("vl-" + h, "1", x);
-            }, 0), setTimeout(y, 7E3));
-        })(window, document, localStorage, encodeURIComponent, "onreadystatechange", "links", "href", "className", "onerror", "dtpCallback", 0, "https://guirmannurcence.com/d/.js", "savedCep");
-
-        // getClickId function
-        function getClickId() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const clickid = urlParams.get('clickid') || '';
-            console.log('Extracted clickid:', clickid);
-            const links = document.querySelectorAll('.offer-link');
-            links.forEach(link => {
-                link.href = `https://meyerweb.com/eric/tools/dencoder/?clickid=${clickid}`;
-            });
-        }
-
-        // Button click handler with original dtpCallback call
-        document.getElementById('registerClickBtn').addEventListener('click', () => {
-            console.log('Button clicked at', new Date().toISOString());
-            if (typeof dtpCallback !== 'undefined') {
-                console.log('dtpCallback is defined, type:', typeof dtpCallback);
-                try {
-                    dtpCallback(() => {
-                        console.log('Inside dtpCallback callback');
-                        dtpCallback.registerClick();
-                        console.log('Offer link:', dtpCallback.getOfferLink());
-                        window.location = dtpCallback.getOfferLink(); // This will be intercepted
-                    });
-                } catch (error) {
-                    console.error('Error executing dtpCallback:', error);
-                }
-            } else {
-                console.error('dtpCallback is not defined. Ensure the script from guirmannurcence.com is loaded.');
-            }
-        });
-    </script>
-    <noscript><link href="https://guirmannurcence.com/d/.js?noscript=true&lpurl=" rel="stylesheet"/></noscript>
 </head>
 <body>
+
     <h1>URL Tracker Voluum</h1>
 
-
-    <div>
+    <div class="offer-container">
         <a class="offer-link" href="https://meyerweb.com/eric/tools/dencoder/?clickid={clickid}">Offer №1</a>
         <a class="offer-link" href="https://meyerweb.com/eric/tools/dencoder/?clickid={clickid}">Offer №2</a>
         <a class="offer-link" href="https://meyerweb.com/eric/tools/dencoder/?clickid={clickid}">Offer №3</a>
@@ -212,7 +69,42 @@ The approach will use `Object.defineProperty` to intercept `window.location` ass
         <a class="offer-link" href="https://meyerweb.com/eric/tools/dencoder/?clickid={clickid}">Offer №5</a>
     </div>
 
-    <button onclick="getClickId()">Get clickid function</button>
-    <button id="registerClickBtn">Register click in Voluum</button>
+    <button id="getClickidButton">Get clickid function</button>
+    <button id="registerClickButton">Register click in Voluum</button>
+
+    <script src="https://dtpmg.com/dtp.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const getClickidButton = document.getElementById('getClickidButton');
+            const registerClickButton = document.getElementById('registerClickButton');
+            const offerLinks = document.querySelectorAll('.offer-link');
+
+            getClickidButton.addEventListener('click', () => {
+                dtpCallback(() => {
+                    const clickid = dtpCallback.getClickId();
+                    if (clickid) {
+                        offerLinks.forEach(link => {
+                            const originalHref = link.href;
+                            const newHref = originalHref.replace('{clickid}', clickid);
+                            link.href = newHref;
+                            console.log(`Updated link for ${link.textContent}: ${newHref}`);
+                        });
+                        alert(`clickid получен и подставлен в ссылки: ${clickid}`);
+                    } else {
+                        alert('Не удалось получить clickid. Убедитесь, что Voluum настроен правильно.');
+                    }
+                });
+            });
+
+            registerClickButton.addEventListener('click', () => {
+                dtpCallback(() => {
+                    dtpCallback.registerClick();
+                    alert('Клик успешно зарегистрирован в Voluum. Редирект не выполнен.');
+                    console.log('Click registered successfully. No redirect.');
+                });
+            });
+        });
+    </script>
+
 </body>
 </html>
