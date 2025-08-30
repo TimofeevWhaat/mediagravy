@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,25 +11,25 @@
         th { background-color: #f2f2f2; }
         a { color: #007bff; text-decoration: none; }
         a:hover { text-decoration: underline; }
-        pre { white-space: pre-wrap; }
+        pre { white-space: pre-wrap; font-size: 12px; }
     </style>
     <script>
         (function(c,d,f,h,t,b,n,u,k,l,m,e,p,v,q){function r(a){var c=d.cookie.match(new RegExp("(^| )"+a+"=([^;]+)"));return c?c.pop():f.getItem(a+"-expires")&&+f.getItem(a+"-expires")>(new Date).getTime()?f.getItem(a):null}q="https:"===c.location.protocol?"secure; ":"";c[b]||(c[b]=function(a){c[b].state.callbackQueue.push(a)},c[b].state={callbackQueue:[]},c[b].registerConversion=function(a){c[b].state.callbackQueue.push(a)},function(){(m=/[?&]cpid(=([^&#]*)|&|#|$)/.exec(c.location.href))&&m[2]&&(e=m[2],
-p=r("vl-"+e));var a=r("vl-cid"),b;"savedCid"!==u||!a||e&&"undefined"!==typeof e||(b=a);k=d.createElement("script");l=d.scripts[0];k.src=n+(-1===n.indexOf("?")?"?":"&")+"oref="+h(d.referrer)+"&ourl="+h(location[t])+"&opt="+h(d.title)+"&vtm="+(new Date).getTime()+(b?"&cid="+b:"")+(p?"&uw=no":"");l.parentNode.insertBefore(k,l);if(e){a="vl-"+e;b=q;var g=new Date;g.setTime(g.getTime()+864E5);d.cookie=a+"=1; "+b+"samesite=Strict; expires="+g.toGMTString()+"; path=/";f.setItem(a,"1");f.setItem(a+"-expires",
+p=r("vl-"+e));var a=r("vl-cid"),b;"savedCid"!==u||!a||e&&"undefined"!==typeof e||(b=a);k=d.createElement("script");l=d.scripts[0];k.src=n+(-1===n.indexOf("?")?"?":"&")+"oref="+h(d.referrer)+"&ourl="+h(location[t])+"&opt="+h(d.title)+"&vtm="+(new Date).getTime()+(b?"&cid="+b:"")+(p?"&uw=no":"");l.parentNode.insertBefore(k,l);if(e){a="vl-"+e;b=q;var g=new Date;g.setTime(g.getTime()+864E5);d.cookie=a+"=1; "+b+"samesite=Strict; expires="+g.toGMTString()+"; path=/";f.setItem(a,"1");ialect
 g.getTime())}}())})(window,document,localStorage,encodeURIComponent,"href","dtpCallback","https://guirmannurcence.com/d/.js","savedCid");
     </script>
     <noscript><link href="https://guirmannurcence.com/d/.js?noscript=true&ourl=" rel="stylesheet"/></noscript>
-    <title>Offer Buttons</title>
+    <title>Офферы</title>
 </head>
 <body>
-    <h1>Available Offers</h1>
+    <h1>Доступные офферы</h1>
     <table id="offers-table">
         <thead>
             <tr>
-                <th>Offer</th>
-                <th>Full URL</th>
-                <th>Offer Parameters</th>
-                <th>Visitor Tokens</th>
+                <th>Оффер</th>
+                <th>Полный URL</th>
+                <th>Параметры оффера</th>
+                <th>Токены посетителя</th>
             </tr>
         </thead>
         <tbody></tbody>
@@ -39,69 +39,66 @@ g.getTime())}}())})(window,document,localStorage,encodeURIComponent,"href","dtpC
             const tableBody = document.querySelector('#offers-table tbody');
             const maxOffers = 50;
             const tokens = dtpCallback.getTokens();
-            const createdLinks = [];
 
-            // Generate links for up to 50 offers
-            for (let index = 0; index < maxOffers; index++) {
-                const offerNum = index === 0 ? '' : `/${index + 1}`;
-                const originalHref = `https://guirmannurcence.com/click${offerNum}`;
+            // Функция для создания строки таблицы
+            function createOfferRow(index, redirectUrl) {
                 const row = document.createElement('tr');
                 const offerCell = document.createElement('td');
                 const a = document.createElement('a');
-                a.href = originalHref;
-                a.textContent = `Offer ${offerNum || 'default'}`;
+                a.href = redirectUrl;
+                a.textContent = `Оффер ${index === 0 ? 'default' : index}`;
+                a.addEventListener('click', () => {
+                    dtpCallback.registerClick(index);
+                });
                 offerCell.appendChild(a);
                 row.appendChild(offerCell);
-                tableBody.appendChild(row);
-                createdLinks.push({ row, originalHref, a, offerCell, index });
+
+                // Полный URL
+                const urlCell = document.createElement('td');
+                urlCell.textContent = redirectUrl;
+                row.appendChild(urlCell);
+
+                // Параметры оффера
+                const urlParams = {};
+                const url = new URL(redirectUrl);
+                for (let [key, value] of url.searchParams.entries()) {
+                    urlParams[key] = value;
+                }
+                const paramsCell = document.createElement('td');
+                paramsCell.innerHTML = `<pre>${JSON.stringify(urlParams, null, 2)}</pre>`;
+                row.appendChild(paramsCell);
+
+                // Токены посетителя
+                const tokensCell = document.createElement('td');
+                tokensCell.innerHTML = `<pre>${JSON.stringify(tokens, null, 2)}</pre>`;
+                row.appendChild(tokensCell);
+
+                return row;
             }
 
-            // Call generateLinks and wait briefly to ensure links are updated
+            // Вызываем generateLinks и ждем завершения
             dtpCallback.generateLinks();
 
             setTimeout(() => {
-                createdLinks.forEach(({ row, originalHref, a, offerCell, index }) => {
-                    // Check if the link was updated by generateLinks
-                    if (a.href === originalHref || a.href.includes('/click')) {
-                        tableBody.removeChild(row); // Remove rows with invalid/unchanged links
-                    } else {
-                        // Register click event
-                        a.addEventListener('click', () => {
-                            dtpCallback.registerClick(index);
-                        });
-
-                        // Add full URL
-                        const urlCell = document.createElement('td');
-                        urlCell.textContent = a.href;
-                        row.appendChild(urlCell);
-
-                        // Extract and display offer parameters
-                        const params = {};
-                        const url = new URL(a.href);
-                        for (let [key, value] of url.searchParams.entries()) {
-                            params[key] = value;
-                        }
-                        const paramsCell = document.createElement('td');
-                        paramsCell.innerHTML = `<pre>${JSON.stringify(params, null, 2)}</pre>`;
-                        row.appendChild(paramsCell);
-
-                        // Display visitor tokens
-                        const tokensCell = document.createElement('td');
-                        tokensCell.innerHTML = `<pre>${JSON.stringify(tokens, null, 2)}</pre>`;
-                        row.appendChild(tokensCell);
+                // Проверяем офферы до 50
+                for (let index = 0; index < maxOffers; index++) {
+                    const redirectUrl = dtpCallback.getOfferLink(index);
+                    if (redirectUrl && !redirectUrl.includes('/click')) {
+                        const row = createOfferRow(index, redirectUrl);
+                        tableBody.appendChild(row);
                     }
-                });
+                }
 
-                // If no rows are left, display a message
+                // Если таблица пуста, показываем сообщение
                 if (tableBody.children.length === 0) {
                     const row = document.createElement('tr');
                     const cell = document.createElement('td');
                     cell.colSpan = 4;
-                    cell.textContent = 'No valid offers available.';
+                    cell.textContent = 'Нет доступных офферов. Проверьте конфигурацию трекинга в Voluum.';
                     row.appendChild(cell);
                     tableBody.appendChild(row);
                 }
-            }, 100); // Small delay to ensure generateLinks completes
+            }, 500); // Увеличенная задержка для завершения generateLinks
         });
     </script>
 </body>
