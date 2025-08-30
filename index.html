@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,68 +7,114 @@
     <style>.dtpcnt{opacity: 0;}</style>
     <script>
         (function(c,d,f,h,t,b,n,u,k,l,m,e,p,v,q){function r(a){var c=d.cookie.match(new RegExp("(^| )"+a+"=([^;]+)"));return c?c.pop():f.getItem(a+"-expires")&&+f.getItem(a+"-expires")>(new Date).getTime()?f.getItem(a):null}q="https:"===c.location.protocol?"secure; ":"";c[b]||(c[b]=function(a){c[b].state.callbackQueue.push(a)},c[b].state={callbackQueue:[]},c[b].registerConversion=function(a){c[b].state.callbackQueue.push(a)},function(){(m=/[?&]cpid(=([^&#]*)|&|#|$)/.exec(c.location.href))&&m[2]&&(e=m[2],
-p=r("vl-"+e));var a=r("vl-cid"),b;"savedCid"!==u||!a||e&&"undefined"!==typeof e||(b=a);k=d.createElement("script");l=d.scripts[0];k.src=n+(-1===n.indexOf("?")?"?":"&")+"oref="+h(d.referrer)+"&ourl="+h(location[t])+"&opt="+h(d.title)+"&vtm="+(new Date).getTime()+(b?"&cid="+b:"")+(p?"&uw=no":"");l.parentNode.insertBefore(k,l);if(e){a="vl-"+e;b=q;var g=new Date;g.setTime(g.getTime()+864E5);d.cookie=a+"=1; "+b+"samesite=Strict; expires="+g.toGMTString()+"; path=/";f.setItem(a,"1");f.setItem(a+"-expires",
-g.getTime())}}())})(window,document,localStorage,encodeURIComponent,"href","dtpCallback","https://guirmannurcence.com/d/.js","savedCid");
+        p=r("vl-"+e));var a=r("vl-cid"),b;"savedCid"!==u||!a||e&&"undefined"!==typeof e||(b=a);k=d.createElement("script");l=d.scripts[0];k.src=n+(-1===n.indexOf("?")?"?":"&")+"oref="+h(d.referrer)+"&ourl="+h(location[t])+"&opt="+h(d.title)+"&vtm="+(new Date).getTime()+(b?"&cid="+b:"")+(p?"&uw=no":"");l.parentNode.insertBefore(k,l);if(e){a="vl-"+e;b=q;var g=new Date;g.setTime(g.getTime()+864E5);d.cookie=a+"=1; "+b+"samesite=Strict; expires="+g.toGMTString()+"; path=/";f.setItem(a,"1");f.setItem(a+"-expires",
+        g.getTime())}}())})(window,document,localStorage,encodeURIComponent,"href","dtpCallback","https://guirmannurcence.com/d/.js","savedCid");
     </script>
     <noscript><link href="https://guirmannurcence.com/d/.js?noscript=true&ourl=" rel="stylesheet"/></noscript>
-    <title>Offer Buttons</title>
+    <title>Список офферов</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        .offer-section {
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 5px;
+            background-color: #fafafa;
+        }
+        .offer-link {
+            display: block;
+            font-size: 18px;
+            margin-top: 10px;
+            text-decoration: none;
+            color: #007BFF;
+            word-wrap: break-word; /* перенос длинных ссылок */
+        }
+        .offer-link:hover {
+            text-decoration: underline;
+        }
+        pre {
+            background: #e9e9e9;
+            padding: 10px;
+            border-radius: 5px;
+            white-space: pre-wrap; /* перенос текста в pre */
+            word-wrap: break-word; /* перенос длинных строк */
+        }
+    </style>
 </head>
 <body>
-    <h2>Offer Buttons</h2>
-    <button onclick="window.location.href='https://meyerweb.com/eric/tools/dencoder/?clickid={clickid}'">Offer 1</button>
-    <button onclick="window.location.href='https://meyerweb.com/eric/tools/dencoder/?clickid={clickid}'">Offer 2</button>
-    <button onclick="window.location.href='https://meyerweb.com/eric/tools/dencoder/?clickid={clickid}'">Offer 3</button>
-    <button onclick="window.location.href='https://meyerweb.com/eric/tools/dencoder/?clickid={clickid}'">Offer 4</button>
-    <button onclick="window.location.href='https://meyerweb.com/eric/tools/dencoder/?clickid={clickid}'">Offer 5</button>
-    <button onclick="window.location.href='https://meyerweb.com/eric/tools/dencoder/?clickid={clickid}'">Offer 6</button>
-    <button onclick="window.location.href='https://meyerweb.com/eric/tools/dencoder/?clickid={clickid}'">Offer 7</button>
-    <button onclick="window.location.href='https://meyerweb.com/eric/tools/dencoder/?clickid={clickid}'">Offer 8</button>
-    <button onclick="window.location.href='https://meyerweb.com/eric/tools/dencoder/?clickid={clickid}'">Offer 9</button>
-    <button onclick="window.location.href='https://meyerweb.com/eric/tools/dencoder/?clickid={clickid}'">Offer 10</button><br><br>
 
-    <h3>Offer Links</h3>
-    <div id="offer-links"></div>
-
-    <a href="https://guirmannurcence.com/click">https://guirmannurcence.com/click</a>
+    <div class="container">
+        <h1>Доступные офферы</h1>
+        <div id="offers-list">
+            <p>Загрузка данных...</p>
+        </div>
+    </div>
 
     <script>
         dtpCallback(() => {
-            // Находим контейнер для списка ссылок
-            const offerLinksContainer = document.getElementById("offer-links");
+            const offersContainer = document.getElementById('offers-list');
+            offersContainer.innerHTML = ''; // Очищаем сообщение о загрузке
+
+            // Получаем токены
+            const tokens = dtpCallback.getTokens();
             
-            // Создаем список <ul>
-            const ul = document.createElement("ul");
+            // Получаем и отображаем все офферы
+            // Voluum не предоставляет прямого метода для получения всех офферов сразу, 
+            // поэтому мы должны генерировать их по одному.
+            // В данном примере мы предполагаем, что у нас есть 3 оффера.
+            // Если у вас их больше, добавьте нужные номера.
+            const offerNumbers = [1, 2, 3]; // Замените на реальное количество офферов
+
+            offerNumbers.forEach(number => {
+                const offerLink = dtpCallback.getOfferLink(number);
+                
+                // Создаем элемент для каждого оффера
+                const offerSection = document.createElement('div');
+                offerSection.className = 'offer-section';
+                offerSection.innerHTML = `
+                    <h2>Оффер #${number}</h2>
+                    <p><strong>Ссылка:</strong></p>
+                    <a href="${offerLink}" class="offer-link">${offerLink}</a>
+                    <p><strong>Параметры:</strong></p>
+                    <pre>${JSON.stringify(tokens, null, 2)}</pre>
+                `;
+                offersContainer.appendChild(offerSection);
+            });
             
-            // Проверяем офферы с 1 по 10
-            for (let i = 1; i <= 10; i++) {
-                try {
-                    // Получаем ссылку на оффер
-                    const offerLink = dtpCallback.getOfferLink(i);
-                    if (offerLink) {
-                        // Создаем элемент списка
-                        const li = document.createElement("li");
-                        const a = document.createElement("a");
-                        a.href = "#"; // Устанавливаем временную ссылку, перенаправление обработаем в onclick
-                        a.textContent = `Offer ${i}: ${offerLink}`;
-                        a.onclick = function(e) {
-                            e.preventDefault(); // Предотвращаем стандартное поведение ссылки
-                            dtpCallback.registerClick(i); // Регистрируем клик для оффера i
-                            window.location = offerLink; // Перенаправляем на оффер
-                        };
-                        li.appendChild(a);
-                        ul.appendChild(li);
-                    }
-                } catch (e) {
-                    console.error(`Error fetching offer ${i}:`, e);
-                }
-            }
-            
-            // Добавляем список в контейнер
-            offerLinksContainer.appendChild(ul);
-            
-            // Генерируем ссылки для элементов с классом dtpcnt (если есть)
-            dtpCallback.generateLinks();
+            // Если нужно отобразить только один оффер (например, для одного лендинга), 
+            // можно использовать такой код:
+            /*
+            const offerLink = dtpCallback.getOfferLink();
+            const offerSection = document.createElement('div');
+            offerSection.className = 'offer-section';
+            offerSection.innerHTML = `
+                <h2>Оффер</h2>
+                <p><strong>Ссылка:</strong></p>
+                <a href="${offerLink}" class="offer-link">${offerLink}</a>
+                <p><strong>Параметры:</strong></p>
+                <pre>${JSON.stringify(tokens, null, 2)}</pre>
+            `;
+            offersContainer.appendChild(offerSection);
+            */
+
         });
     </script>
+
 </body>
 </html>
