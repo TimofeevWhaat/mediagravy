@@ -73,7 +73,6 @@
     <button id="registerClickButton">Register click in Voluum</button>
 
     <script src="https://dtpmg.com/dtp.js"></script>
-
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const getClickidButton = document.getElementById('getClickidButton');
@@ -82,20 +81,20 @@
 
             // Обработчик для кнопки "Get clickid function"
             getClickidButton.addEventListener('click', () => {
-                dtpCallback(() => {
-                    const clickid = dtpCallback.getClickId();
-                    if (clickid) {
-                        offerLinks.forEach(link => {
-                            const originalHref = link.href;
-                            const newHref = originalHref.replace('{clickid}', clickid);
-                            link.href = newHref;
-                            console.log(`Updated link for ${link.textContent}: ${newHref}`);
-                        });
-                        alert(`clickid получен и подставлен в ссылки: ${clickid}`);
-                    } else {
-                        alert('Не удалось получить clickid. Убедитесь, что Voluum настроен правильно.');
-                    }
-                });
+                const urlParams = new URLSearchParams(window.location.search);
+                const clickid = urlParams.get('clickid');
+                
+                if (clickid) {
+                    offerLinks.forEach(link => {
+                        const originalHref = link.href;
+                        const newHref = originalHref.replace('{clickid}', clickid);
+                        link.href = newHref;
+                        console.log(`Updated link for ${link.textContent}: ${newHref}`);
+                    });
+                    alert(`clickid получен и подставлен в ссылки: ${clickid}`);
+                } else {
+                    alert('Не удалось получить clickid. Убедитесь, что он передан в URL страницы.');
+                }
             });
 
             // Обработчик для кнопки "Register click in Voluum"
