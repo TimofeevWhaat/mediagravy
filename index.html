@@ -26,7 +26,7 @@
             gap: 15px;
             margin-bottom: 30px;
         }
-        .offer-link, button {
+        .offer-link, button, .register-link {
             display: inline-block;
             padding: 12px 24px;
             border-radius: 8px;
@@ -45,13 +45,22 @@
             transform: translateY(-2px);
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
-        button {
+        #getClickidButton {
             margin: 10px;
             background-color: #28a745;
             color: white;
         }
-        button:hover {
+        #getClickidButton:hover {
             background-color: #218838;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .register-link {
+            background-color: #dc3545; /* Красный цвет для кнопки регистрации */
+            color: white;
+        }
+        .register-link:hover {
+            background-color: #c82333;
             transform: translateY(-2px);
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
@@ -70,38 +79,53 @@
     </div>
 
     <button id="getClickidButton">Get clickid function</button>
-    <button id="registerClickButton">Register click in Voluum</button>
+    <a href="https://guirmannurcence.com/click" class="register-link" id="registerClickLink">Register click in Voluum</a>
 
-    <script src="https://dtpmg.com/dtp.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const getClickidButton = document.getElementById('getClickidButton');
-            const registerClickButton = document.getElementById('registerClickButton');
+            const registerClickLink = document.getElementById('registerClickLink');
             const offerLinks = document.querySelectorAll('.offer-link');
 
+            // Функция для получения параметра из URL
+            function getUrlParameter(name) {
+                name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+                const regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+                const results = regex.exec(location.search);
+                return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+            }
+
+            // Обработчик для кнопки "Get clickid"
             getClickidButton.addEventListener('click', () => {
-                dtpCallback(() => {
-                    const clickid = dtpCallback.getClickId();
-                    if (clickid) {
-                        offerLinks.forEach(link => {
-                            const originalHref = link.href;
-                            const newHref = originalHref.replace('{clickid}', clickid);
-                            link.href = newHref;
-                            console.log(`Updated link for ${link.textContent}: ${newHref}`);
-                        });
-                        alert(`clickid получен и подставлен в ссылки: ${clickid}`);
-                    } else {
-                        alert('Не удалось получить clickid. Убедитесь, что Voluum настроен правильно.');
-                    }
-                });
+                const clickid = getUrlParameter('clickid');
+                if (clickid) {
+                    offerLinks.forEach(link => {
+                        const originalHref = link.href;
+                        const newHref = originalHref.replace('{clickid}', clickid);
+                        link.href = newHref;
+                        console.log(`Updated link for ${link.textContent}: ${newHref}`);
+                    });
+                    alert(`clickid получен и подставлен в ссылки: ${clickid}`);
+                } else {
+                    alert('Не удалось найти clickid в URL. Убедитесь, что он передан как параметр.');
+                }
             });
 
-            registerClickButton.addEventListener('click', () => {
-                dtpCallback(() => {
-                    dtpCallback.registerClick();
-                    alert('Клик успешно зарегистрирован в Voluum. Редирект не выполнен.');
-                    console.log('Click registered successfully. No redirect.');
-                });
+            // Обработчик для ссылки "Register click"
+            registerClickLink.addEventListener('click', (event) => {
+                // Отменяем стандартное действие ссылки, чтобы не было редиректа
+                event.preventDefault(); 
+                
+                // Создаем и отправляем HTTP-запрос
+                fetch(registerClickLink.href)
+                    .then(response => {
+                        console.log('Click registered successfully:', response);
+                        alert('Клик успешно зарегистрирован в Voluum. Редирект не выполнен.');
+                    })
+                    .catch(error => {
+                        console.error('Error registering click:', error);
+                        alert('Произошла ошибка при регистрации клика.');
+                    });
             });
         });
     </script>
