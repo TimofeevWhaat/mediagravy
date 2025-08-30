@@ -50,6 +50,8 @@
         a { 
             color: #007bff; 
             text-decoration: none; 
+            display: inline-block; 
+            margin: 5px 0; 
         }
         a:hover { 
             text-decoration: underline; 
@@ -98,15 +100,12 @@
         // Храним данные от dtpCallback
         let storedParams = null;
 
-        dtpCallback((params) => {
-            // Сохраняем данные из начального запроса
-            storedParams = params;
-            console.log('Initial dtpCallback params:', params);
-        });
-
-        document.getElementById('show-offers').addEventListener('click', () => {
-            const outputDiv = document.getElementById('output');
-            outputDiv.innerHTML = '';
+        // Функция для отображения данных
+        function displayData(params, outputDiv, errorMessage = '') {
+            let output = '';
+            if (errorMessage) {
+                output += `<p class="error">${errorMessage}</p>`;
+            }
 
             // Проверяем доступность localStorage
             let localStorageStatus = 'Доступно';
@@ -116,6 +115,77 @@
             } catch (e) {
                 localStorageStatus = 'Недоступно: ' + e.message;
             }
+
+            output += '<h2>Параметры кампании</h2>';
+            if (params && Object.keys(params).length > 0) {
+                output += '<pre>' + JSON.stringify({
+                    'flow.id': params['flow.id'] || 'не указано',
+                    'lander.id': params['lander.id'] || 'не указано',
+                    'clickid': params['clickid'] || 'не указано',
+                    'campaign.id': params['campaign.id'] || 'не указано',
+                    'trafficsource.id': params['trafficsource.id'] || 'не указано',
+                    'headline': params['headline'] || 'не указано',
+                    'clickParams': params['clickParams'] || 'не указано'
+                }, null, 2) + '</pre>';
+
+                output += '<h2>Токены посетителя</h2>';
+                const tokens = dtpCallback.getTokens ? dtpCallback.getTokens() : null;
+                output += tokens ? '<pre>' + JSON.stringify(tokens, null, 2) + '</pre>' : '<p>Токены недоступны</p>';
+
+                output += '<h2>Офферы</h2>';
+                let hasValidOffers = false;
+                if (params.links && Array.isArray(params.links)) {
+                    for (let index = 0; index < Math.min(50, params.links.length); index++) {
+                        if (params.links[index] && params.links[index].redirectUrl) {
+                            const redirectUrl = params.links[index].redirectUrl;
+                            const beaconUrl = params.links[index].beaconUrl || 'null';
+                            const urlParams = {};
+                            try {
+                                const url = new URL(redirectUrl);
+                                for (let [key, value] of url.searchParams.entries()) {
+                                    urlParams[key] = value;
+                                }
+                            } catch (e) {
+                                console.error(`Ошибка обработки URL для оффера ${index}:`, e);
+                                output += `<p class="error">Ошибка обработки оффера ${index}: ${e.message}</p>`;
+                                continue;
+                            }
+
+                            output += `<h3>Оффер ${index === 0 ? 'default' : index}</h3>`;
+                            output += `<p><strong>Redirect URL:</strong> <a href="${redirectUrl}" target="_blank" class="offer-link">Перейти к офферу ${index === 0 ? 'default' : index}</a></p>`;
+                            output += `<p><strong>Полный URL:</strong> ${redirectUrl}</p>`;
+                            output += `<p><strong>Beacon URL:</strong> ${beaconUrl}</p>`;
+                            output += '<p><strong>Параметры оффера:</strong></p>';
+                            output += '<pre>' + JSON.stringify(urlParams, null, 2) + '</pre>';
+                            hasValidOffers = true;
+                        }
+                    }
+                }
+
+                if (!hasValidOffers) {
+                    output += '<p>Нет доступных офферов. Проверьте конфигурацию в Voluum или наличие валидных redirectUrl в ответе трекера.</p>';
+                }
+            } else {
+                output += '<p class="error">Данные кампании недоступны. Проверьте подключение к трекеру или конфигурацию dtpCallback.</p>';
+            }
+
+            output += `<h2>Статус localStorage</h2><p>${localStorageStatus}</p>`;
+            outputDiv.innerHTML = output;
+        }
+
+        // Обработка начальных данных от dtpCallback
+        dtpCallback((params) => {
+            storedParams = params;
+            console.log('Initial dtpCallback params:', params);
+            // Отображаем данные сразу при загрузке
+            const outputDiv = document.getElementById('output');
+            displayData(params, outputDiv);
+        });
+
+        // Обработка клика на кнопку
+        document.getElementById('show-offers').addEventListener('click', () => {
+            const outputDiv = document.getElementById('output');
+            outputDiv.innerHTML = '<p>Загрузка данных...</p>';
 
             // Пытаемся выполнить повторный запрос
             const scriptUrl = 'https://guirmannurcence.com/d/.js?oref=' + encodeURIComponent(document.referrer) +
@@ -127,85 +197,18 @@
             script.src = scriptUrl;
             script.onerror = () => {
                 console.error('Ошибка загрузки скрипта:', scriptUrl);
-                displayData(storedParams, localStorageStatus, outputDiv, 'Не удалось выполнить повторный запрос. Использую сохраненные данные.');
+                if (storedParams) {
+                    displayData(storedParams, outputDiv, 'Не удалось выполнить повторный запрос. Использую сохраненные данные.');
+                } else {
+                    outputDiv.innerHTML = '<p class="error">Ошибка: данные недоступны. Проверьте подключение к трекеру.</p>';
+                }
             };
             script.onload = () => {
                 console.log('Скрипт успешно загружен:', scriptUrl);
+                // Новые данные должны быть в storedParams, отображаем их
+                displayData(storedParams, outputDiv);
             };
             document.head.appendChild(script);
-
-            // Функция для отображения данных
-            function displayData(params, localStorageStatus, outputDiv, errorMessage = '') {
-                let output = '';
-                if (errorMessage) {
-                    output += `<p class="error">${errorMessage}</p>`;
-                }
-
-                output += '<h2>Параметры кампании</h2>';
-                if (params && Object.keys(params).length > 0) {
-                    output += '<pre>' + JSON.stringify({
-                        'flow.id': params['flow.id'] || 'не указано',
-                        'lander.id': params['lander.id'] || 'не указано',
-                        'clickid': params['clickid'] || 'не указано',
-                        'campaign.id': params['campaign.id'] || 'не указано',
-                        'trafficsource.id': params['trafficsource.id'] || 'не указано',
-                        'headline': params['headline'] || 'не указано',
-                        'clickParams': params['clickParams'] || 'не указано'
-                    }, null, 2) + '</pre>';
-
-                    output += '<h2>Токены посетителя</h2>';
-                    const tokens = dtpCallback.getTokens ? dtpCallback.getTokens() : null;
-                    output += tokens ? '<pre>' + JSON.stringify(tokens, null, 2) + '</pre>' : '<p>Токены недоступны</p>';
-
-                    output += '<h2>Офферы</h2>';
-                    let hasValidOffers = false;
-                    if (params.links && Array.isArray(params.links)) {
-                        for (let index = 0; index < Math.min(50, params.links.length); index++) {
-                            if (params.links[index] && params.links[index].redirectUrl) {
-                                const redirectUrl = params.links[index].redirectUrl;
-                                const beaconUrl = params.links[index].beaconUrl || 'null';
-                                const urlParams = {};
-                                try {
-                                    const url = new URL(redirectUrl);
-                                    for (let [key, value] of url.searchParams.entries()) {
-                                        urlParams[key] = value;
-                                    }
-                                } catch (e) {
-                                    console.error(`Ошибка обработки URL для оффера ${index}:`, e);
-                                    output += `<p class="error">Ошибка обработки оффера ${index}: ${e.message}</p>`;
-                                    continue;
-                                }
-
-                                output += `<h3>Оффер ${index === 0 ? 'default' : index}</h3>`;
-                                output += `<p><strong>Redirect URL:</strong> <a href="${redirectUrl}" target="_blank">${redirectUrl}</a></p>`;
-                                output += `<p><strong>Beacon URL:</strong> ${beaconUrl}</p>`;
-                                output += '<p><strong>Параметры оффера:</strong></p>';
-                                output += '<pre>' + JSON.stringify(urlParams, null, 2) + '</pre>';
-                                hasValidOffers = true;
-                            }
-                        }
-                    }
-
-                    if (!hasValidOffers) {
-                        output += '<p>Нет доступных офферов. Проверьте конфигурацию в Voluum или наличие валидных redirectUrl в ответе трекера.</p>';
-                    }
-                } else {
-                    output += '<p class="error">Данные кампании недоступны. Проверьте подключение к трекеру или конфигурацию dtpCallback.</p>';
-                }
-
-                output += `<h2>Статус localStorage</h2><p>${localStorageStatus}</p>`;
-                outputDiv.innerHTML = output;
-
-                console.log('Params:', params);
-                console.log('Tokens:', dtpCallback.getTokens ? dtpCallback.getTokens() : 'Токены недоступны');
-            }
-
-            // Если данные уже есть, отображаем их сразу
-            if (storedParams) {
-                displayData(storedParams, localStorageStatus, outputDiv);
-            } else {
-                outputDiv.innerHTML = '<p class="error">Ожидание данных от трекера...</p>';
-            }
         });
     </script>
 </body>
