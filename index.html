@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Список офферов</title>
+    
     <meta http-equiv="delegate-ch" content="sec-ch-ua https://guirmannurcence.com; sec-ch-ua-mobile https://guirmannurcence.com; sec-ch-ua-arch https://guirmannurcence.com; sec-ch-ua-model https://guirmannurcence.com; sec-ch-ua-platform https://guirmannurcence.com; sec-ch-ua-platform-version https://guirmannurcence.com; sec-ch-ua-bitness https://guirmannurcence.com; sec-ch-ua-full-version-list https://guirmannurcence.com; sec-ch-ua-full-version https://guirmannurcence.com">
     <style>.dtpcnt{opacity: 0;}</style>
     <script>
@@ -11,7 +13,7 @@
         g.getTime())}}())})(window,document,localStorage,encodeURIComponent,"href","dtpCallback","https://guirmannurcence.com/d/.js","savedCid");
     </script>
     <noscript><link href="https://guirmannurcence.com/d/.js?noscript=true&ourl=" rel="stylesheet"/></noscript>
-    <title>Список офферов</title>
+    
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -43,7 +45,7 @@
             margin-top: 10px;
             text-decoration: none;
             color: #007BFF;
-            word-wrap: break-word; /* перенос длинных ссылок */
+            word-wrap: break-word;
         }
         .offer-link:hover {
             text-decoration: underline;
@@ -52,8 +54,8 @@
             background: #e9e9e9;
             padding: 10px;
             border-radius: 5px;
-            white-space: pre-wrap; /* перенос текста в pre */
-            word-wrap: break-word; /* перенос длинных строк */
+            white-space: pre-wrap;
+            word-wrap: break-word;
         }
     </style>
 </head>
@@ -71,47 +73,34 @@
             const offersContainer = document.getElementById('offers-list');
             offersContainer.innerHTML = ''; // Очищаем сообщение о загрузке
 
-            // Получаем токены
             const tokens = dtpCallback.getTokens();
             
-            // Получаем и отображаем все офферы
-            // Voluum не предоставляет прямого метода для получения всех офферов сразу, 
-            // поэтому мы должны генерировать их по одному.
-            // В данном примере мы предполагаем, что у нас есть 3 оффера.
-            // Если у вас их больше, добавьте нужные номера.
-            const offerNumbers = [1, 2, 3]; // Замените на реальное количество офферов
-
-            offerNumbers.forEach(number => {
-                const offerLink = dtpCallback.getOfferLink(number);
-                
-                // Создаем элемент для каждого оффера
-                const offerSection = document.createElement('div');
-                offerSection.className = 'offer-section';
-                offerSection.innerHTML = `
-                    <h2>Оффер #${number}</h2>
-                    <p><strong>Ссылка:</strong></p>
-                    <a href="${offerLink}" class="offer-link">${offerLink}</a>
-                    <p><strong>Параметры:</strong></p>
-                    <pre>${JSON.stringify(tokens, null, 2)}</pre>
-                `;
-                offersContainer.appendChild(offerSection);
-            });
+            // Если вы не знаете, сколько у вас офферов, можно попробовать получить их
+            // по порядку. Этот пример предполагает, что у вас есть хотя бы один оффер.
+            let offerNumber = 1;
+            let offerLink;
             
-            // Если нужно отобразить только один оффер (например, для одного лендинга), 
-            // можно использовать такой код:
-            /*
-            const offerLink = dtpCallback.getOfferLink();
-            const offerSection = document.createElement('div');
-            offerSection.className = 'offer-section';
-            offerSection.innerHTML = `
-                <h2>Оффер</h2>
-                <p><strong>Ссылка:</strong></p>
-                <a href="${offerLink}" class="offer-link">${offerLink}</a>
-                <p><strong>Параметры:</strong></p>
-                <pre>${JSON.stringify(tokens, null, 2)}</pre>
-            `;
-            offersContainer.appendChild(offerSection);
-            */
+            do {
+                offerLink = dtpCallback.getOfferLink(offerNumber);
+                if (offerLink) {
+                    const offerSection = document.createElement('div');
+                    offerSection.className = 'offer-section';
+                    offerSection.innerHTML = `
+                        <h2>Оффер #${offerNumber}</h2>
+                        <p><strong>Ссылка:</strong></p>
+                        <a href="${offerLink}" class="offer-link">${offerLink}</a>
+                        <p><strong>Параметры:</strong></p>
+                        <pre>${JSON.stringify(tokens, null, 2)}</pre>
+                    `;
+                    offersContainer.appendChild(offerSection);
+                    offerNumber++;
+                }
+            } while (offerLink); // Продолжаем, пока Voluum возвращает ссылку
+
+            // Если не нашлось ни одного оффера
+            if (offerNumber === 1) {
+                offersContainer.innerHTML = '<p>Офферы не найдены.</p>';
+            }
 
         });
     </script>
