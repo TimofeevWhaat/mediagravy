@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Пример сайта с трекером по клику</title>
-
+    <title>Сайт с трекингом по клику</title>
     <meta http-equiv="delegate-ch" content="sec-ch-ua https://guirmannurcence.com; sec-ch-ua-mobile https://guirmannurcence.com; sec-ch-ua-arch https://guirmannurcence.com; sec-ch-ua-model https://guirmannurcence.com; sec-ch-ua-platform https://guirmannurcence.com; sec-ch-ua-platform-version https://guirmannurcence.com; sec-ch-ua-bitness https://guirmannurcence.com; sec-ch-ua-full-version-list https://guirmannurcence.com; sec-ch-ua-full-version https://guirmannurcence.com">
     <style>
         body {
@@ -24,7 +23,7 @@
             color: white;
             border: none;
             border-radius: 5px;
-            margin-top: 20px;
+            margin: 10px;
         }
         .dtpcnt {
             opacity: 0;
@@ -33,25 +32,66 @@
 </head>
 <body>
 
-    <h1>Нажмите кнопку, чтобы запустить трекер</h1>
-    <p>До клика по кнопке скрипт не будет активен.</p>
-    <button id="startButton">Начать отслеживание</button>
+    <h1>Выберите оффер для перехода</h1>
+    <p>Клик по кнопке активирует трекер Voluum и передаст информацию о выбранном оффере.</p>
+    
+    <div class="buttons-container">
+        <button id="offer1Button">Перейти к Офферу 1</button>
+        <button id="offer2Button">Перейти к Офферу 2</button>
+    </div>
 
     <script>
-        // Функция, которая содержит ваш скрипт-трекер
-        function startTracking() {
-            // Весь код трекера из вашего примера
-            (function(c,d,f,h,t,b,n,u,k,l,m,e,p,v,q){function r(a){var c=d.cookie.match(new RegExp("(^| )"+a+"=([^;]+)"));return c?c.pop():f.getItem(a+"-expires")&&+f.getItem(a+"-expires")>(new Date).getTime()?f.getItem(a):null}q="https:"===c.location.protocol?"secure; ":"";c[b]||(c[b]=function(a){c[b].state.callbackQueue.push(a)},c[b].state={callbackQueue:[]},c[b].registerConversion=function(a){c[b].state.callbackQueue.push(a)},function(){(m=/[?&]cpid(=([^&#]*)|&|#|$)/.exec(c.location.href))&&m[2]&&(e=m[2],
-            p=r("vl-"+e));var a=r("vl-cid"),b;"savedCid"!==u||!a||e&&"undefined"!==typeof e||(b=a);k=d.createElement("script");l=d.scripts[0];k.src=n+(-1===n.indexOf("?")?"?":"&")+"oref="+h(d.referrer)+"&ourl="+h(location[t])+"&opt="+h(d.title)+"&vtm="+(new Date).getTime()+(b?"&cid="+b:"")+(p?"&uw=no":"");l.parentNode.insertBefore(k,l);if(e){a="vl-"+e;b=q;var g=new Date;g.setTime(g.getTime()+864E5);d.cookie=a+"=1; "+b+"samesite=Strict; expires="+g.toGMTString()+"; path=/";f.setItem(a,"1");f.setItem(a+"-expires",
-            g.getTime())}}())})(window,document,localStorage,encodeURIComponent,"href","dtpCallback","https://guirmannurcence.com/d/.js","savedCid");
+        // Задаем уникальные ID для кампании и офферов
+        const campaignId = 'da04940c-00fd-43a4-a23d-5d6f0c4d8d8e';
+        const offer1Id = 'dcf8d576-0df6-42d9-89f9-8533019cc31e';
+        const offer2Id = 'f949fd2e-168d-49b0-894c-4c3ce35c397c';
+
+        // Функция, которая содержит скрипт-трекер.
+        // Она принимает ID кампании и оффера.
+        function startTracking(campaignId, offerId) {
+            (function(c,d,f,h,t,b,n,u,k,l,m,e,p,v,q){
+                function r(a){
+                    var c=d.cookie.match(new RegExp("(^| )"+a+"=([^;]+)"));
+                    return c?c.pop():f.getItem(a+"-expires")&&+f.getItem(a+"-expires")>(new Date).getTime()?f.getItem(a):null
+                }
+                q="https:"===c.location.protocol?"secure; ":"";
+                c[b]||(c[b]=function(a){c[b].state.callbackQueue.push(a)},c[b].state={callbackQueue:[]},c[b].registerConversion=function(a){c[b].state.callbackQueue.push(a)},function(){
+                    // Используем переданные ID вместо считывания из URL
+                    e = campaignId; 
+                    var oid = offerId; // Передаем ID оффера в новую переменную
+                    
+                    p = r("vl-" + e);
+                    var a = r("vl-cid"),b;
+                    "savedCid"!==u||!a||e&&"undefined"!==typeof e||(b=a);
+                    
+                    k=d.createElement("script");
+                    l=d.scripts[0];
+                    k.src=n+(-1===n.indexOf("?")?"?":"&")+"oref="+h(d.referrer)+"&ourl="+h(location[t])+"&opt="+h(d.title)+"&vtm="+(new Date).getTime()+(b?"&cid="+b:"")+(p?"&uw=no":"")+(oid?"&oid="+oid:"");
+                    l.parentNode.insertBefore(k,l);
+                    
+                    if(e){
+                        a="vl-"+e;
+                        b=q;
+                        var g=new Date;
+                        g.setTime(g.getTime()+864E5);
+                        d.cookie=a+"=1; "+b+"samesite=Strict; expires="+g.toGMTString()+"; path=/";
+                        f.setItem(a,"1");
+                        f.setItem(a+"-expires",g.getTime())
+                    }
+                }())
+            })(window,document,localStorage,encodeURIComponent,"href","dtpCallback","https://guirmannurcence.com/d/.js","savedCid");
         }
 
-        // Находим кнопку по ID и добавляем "слушатель" события клика
-        document.getElementById('startButton').addEventListener('click', function() {
-            // Вызываем функцию с трекером
-            startTracking();
-            // Выводим сообщение, чтобы показать, что скрипт сработал
-            console.log('Скрипт трекера Voluum был вызван.');
+        // Обработчик для кнопки Оффера 1
+        document.getElementById('offer1Button').addEventListener('click', function() {
+            startTracking(campaignId, offer1Id);
+            console.log('Клик по Офферу 1. ID кампании:', campaignId, 'ID оффера:', offer1Id);
+        });
+
+        // Обработчик для кнопки Оффера 2
+        document.getElementById('offer2Button').addEventListener('click', function() {
+            startTracking(campaignId, offer2Id);
+            console.log('Клик по Офферу 2. ID кампании:', campaignId, 'ID оффера:', offer2Id);
         });
     </script>
     <noscript><link href="https://guirmannurcence.com/d/.js?noscript=true&ourl=" rel="stylesheet"/></noscript>
