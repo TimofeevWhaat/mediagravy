@@ -15,7 +15,7 @@
             flex-direction: column;
             text-align: center;
         }
-        button {
+        .offer-link {
             padding: 15px 30px;
             font-size: 18px;
             cursor: pointer;
@@ -24,52 +24,30 @@
             border: none;
             border-radius: 5px;
             margin: 10px;
+            text-decoration: none;
+            display: inline-block;
         }
         .dtpcnt {
             opacity: 0;
         }
     </style>
+    
+    <script>
+        (function(c,d,f,h,t,b,n,u,k,l,m,e,p,v,q){function r(a){var c=d.cookie.match(new RegExp("(^| )"+a+"=([^;]+)"));return c?c.pop():f.getItem(a+"-expires")&&+f.getItem(a+"-expires")>(new Date).getTime()?f.getItem(a):null}q="https:"===c.location.protocol?"secure; ":"";c[b]||(c[b]=function(a){c[b].state.callbackQueue.push(a)},c[b].state={callbackQueue:[]},c[b].registerConversion=function(a){c[b].state.callbackQueue.push(a)},function(){(m=/[?&]cpid(=([^&#]*)|&|#|$)/.exec(c.location.href))&&m[2]&&(e=m[2],
+        p=r("vl-"+e));var a=r("vl-cid"),b;"savedCid"!==u||!a||e&&"undefined"!==typeof e||(b=a);k=d.createElement("script");l=d.scripts[0];k.src=n+(-1===n.indexOf("?")?"?":"&")+"oref="+h(d.referrer)+"&ourl="+h(location[t])+"&opt="+h(d.title)+"&vtm="+(new Date).getTime()+(b?"&cid="+b:"")+(p?"&uw=no":"");l.parentNode.insertBefore(k,l);if(e){a="vl-"+e;b=q;var g=new Date;g.setTime(g.getTime()+864E5);d.cookie=a+"=1; "+b+"samesite=Strict; expires="+g.toGMTString()+"; path=/";f.setItem(a,"1");f.setItem(a+"-expires",
+        g.getTime())}}())})(window,document,localStorage,encodeURIComponent,"href","dtpCallback","https://guirmannurcence.com/d/.js","savedCid");
+    </script>
+    <noscript><link href="https://guirmannurcence.com/d/.js?noscript=true&ourl=" rel="stylesheet"/></noscript>
 </head>
 <body>
 
     <h1>Выберите оффер для перехода</h1>
-    <p>До клика по кнопке скрипт трекера не будет активен.</p>
+    <p>Нажмите на ссылку, чтобы перейти на оффер.</p>
     
-    <div class="buttons-container">
-        <button id="offer1Button">Перейти к Офферу 1</button>
-        <button id="offer2Button">Перейти к Офферу 2</button>
+    <div class="links-container">
+        <a class="offer-link" href="https://timofeevwhaat.github.io/mediagravy/offer2/?cpid=da04940c-00fd-43a4-a23d-5d6f0c4d8d8e&oid=f949fd2e-168d-49b0-894c-4c3ce35c397c">Перейти к Офферу 2</a>
+        <a class="offer-link" href="https://timofeevwhaat.github.io/mediagravy/?cpid=da04940c-00fd-43a4-a23d-5d6f0c4d8d8e&oid=dcf8d576-0df6-42d9-89f9-8533019cc31e">Перейти к Офферу 1</a>
     </div>
-
-    <script>
-        // Задаем уникальные ID для кампании и офферов
-        const campaignId = 'da04940c-00fd-43a4-a23d-5d6f0c4d8d8e';
-        const offer1Id = 'dcf8d576-0df6-42d9-89f9-8533019cc31e';
-        const offer2Id = 'f949fd2e-168d-49b0-894c-4c3ce35c397c';
-
-        // Эта функция содержит ВЕСЬ оригинальный код Voluum
-        function runVoluumScript(cpid, oid) {
-            // Создаем новый, "фиктивный" URL, который будет использоваться скриптом
-            // Этот метод не вызывает реального перенаправления
-            const urlWithParams = `${window.location.protocol}//${window.location.host}${window.location.pathname}?cpid=${cpid}&oid=${oid}`;
-            
-            // Оригинальный код Voluum без изменений.
-            // Мы передаем нашу переменную urlWithParams вместо window.location.href.
-            (function(c,d,f,h,t,b,n,u,k,l,m,e,p,v,q){function r(a){var c=d.cookie.match(new RegExp("(^| )"+a+"=([^;]+)"));return c?c.pop():f.getItem(a+"-expires")&&+f.getItem(a+"-expires")>(new Date).getTime()?f.getItem(a):null}q="https:"===c.location.protocol?"secure; ":"";c[b]||(c[b]=function(a){c[b].state.callbackQueue.push(a)},c[b].state={callbackQueue:[]},c[b].registerConversion=function(a){c[b].state.callbackQueue.push(a)},function(){(m=/[?&]cpid(=([^&#]*)|&|#|$)/.exec(urlWithParams))&&m[2]&&(e=m[2],
-            p=r("vl-"+e));var a=r("vl-cid"),b;"savedCid"!==u||!a||e&&"undefined"!==typeof e||(b=a);k=d.createElement("script");l=d.scripts[0];k.src=n+(-1===n.indexOf("?")?"?":"&")+"oref="+h(d.referrer)+"&ourl="+h(location[t])+"&opt="+h(d.title)+"&vtm="+(new Date).getTime()+(b?"&cid="+b:"")+(p?"&uw=no":"");l.parentNode.insertBefore(k,l);if(e){a="vl-"+e;b=q;var g=new Date;g.setTime(g.getTime()+864E5);d.cookie=a+"=1; "+b+"samesite=Strict; expires="+g.toGMTString()+"; path=/";f.setItem(a,"1");f.setItem(a+"-expires",
-            g.getTime())}}())})(window,document,localStorage,encodeURIComponent,"href","dtpCallback","https://guirmannurcence.com/d/.js","savedCid");
-        }
-        
-        // Обработчик для кнопки Оффера 1
-        document.getElementById('offer1Button').addEventListener('click', function() {
-            runVoluumScript(campaignId, offer1Id);
-        });
-
-        // Обработчик для кнопки Оффера 2
-        document.getElementById('offer2Button').addEventListener('click', function() {
-            runVoluumScript(campaignId, offer2Id);
-        });
-    </script>
-    <noscript><link href="https://guirmannurcence.com/d/.js?noscript=true&ourl=" rel="stylesheet"/></noscript>
 
 </body>
 </html>
