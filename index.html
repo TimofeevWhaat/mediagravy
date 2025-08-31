@@ -25,9 +25,6 @@
             border-radius: 5px;
             margin: 10px;
         }
-        .dtpcnt {
-            opacity: 0;
-        }
     </style>
 </head>
 <body>
@@ -45,36 +42,45 @@
         const campaignId = 'da04940c-00fd-43a4-a23d-5d6f0c4d8d8e';
         const offer1Id = 'dcf8d576-0df6-42d9-89f9-8533019cc31e';
         const offer2Id = 'f949fd2e-168d-49b0-894c-4c3ce35c397c';
-
-        // Функция, которая содержит ВЕСЬ код трекера
-        // Она принимает ID кампании и ID оффера
-        function startTracking(campaignId, offerId) {
-            // ВАЖНО: Мы создаем объект window.location с нужными параметрами
-            // Это обманет скрипт Voluum, заставив его думать, что он получил их из URL
-            const originalLocationHref = window.location.href;
-            window.location.href = `${window.location.protocol}//${window.location.host}${window.location.pathname}?cpid=${campaignId}&oid=${offerId}`;
-
-            // ВАЖНО: Весь оригинальный код Voluum находится здесь без изменений
-            (function(c,d,f,h,t,b,n,u,k,l,m,e,p,v,q){function r(a){var c=d.cookie.match(new RegExp("(^| )"+a+"=([^;]+)"));return c?c.pop():f.getItem(a+"-expires")&&+f.getItem(a+"-expires")>(new Date).getTime()?f.getItem(a):null}q="https:"===c.location.protocol?"secure; ":"";c[b]||(c[b]=function(a){c[b].state.callbackQueue.push(a)},c[b].state={callbackQueue:[]},c[b].registerConversion=function(a){c[b].state.callbackQueue.push(a)},function(){(m=/[?&]cpid(=([^&#]*)|&|#|$)/.exec(c.location.href))&&m[2]&&(e=m[2],
-            p=r("vl-"+e));var a=r("vl-cid"),b;"savedCid"!==u||!a||e&&"undefined"!==typeof e||(b=a);k=d.createElement("script");l=d.scripts[0];k.src=n+(-1===n.indexOf("?")?"?":"&")+"oref="+h(d.referrer)+"&ourl="+h(location[t])+"&opt="+h(d.title)+"&vtm="+(new Date).getTime()+(b?"&cid="+b:"")+(p?"&uw=no":"");l.parentNode.insertBefore(k,l);if(e){a="vl-"+e;b=q;var g=new Date;g.setTime(g.getTime()+864E5);d.cookie=a+"=1; "+b+"samesite=Strict; expires="+g.toGMTString()+"; path=/";f.setItem(a,"1");f.setItem(a+"-expires",
-            g.getTime())}}())})(window,document,localStorage,encodeURIComponent,"href","dtpCallback","https://guirmannurcence.com/d/.js","savedCid");
+        
+        // --- Самый надежный способ: динамическое создание скрипта ---
+        function startTracking(cpid, oid) {
+            // URL, по которому будет загружаться скрипт Voluum
+            const baseUrl = "https://guirmannurcence.com/d/.js";
             
-            // Возвращаем исходный URL страницы после выполнения скрипта
-            window.location.href = originalLocationHref;
-        }
+            // Собираем параметры для URL
+            const params = new URLSearchParams();
+            params.append('oref', encodeURIComponent(document.referrer));
+            params.append('ourl', encodeURIComponent(location.href));
+            params.append('opt', encodeURIComponent(document.title));
+            params.append('vtm', new Date().getTime());
+            params.append('cpid', cpid); // Добавляем ID кампании
+            params.append('oid', oid);   // Добавляем ID оффера
 
+            // Создаем полный URL для загрузки скрипта
+            const scriptUrl = `${baseUrl}?${params.toString()}`;
+
+            // Создаем новый тег <script>
+            const script = document.createElement('script');
+            script.src = scriptUrl;
+            
+            // Добавляем тег на страницу
+            document.body.appendChild(script);
+
+            console.log('Скрипт трекера был запущен с параметрами:', { cpid, oid });
+        }
+        
         // Обработчик для кнопки Оффера 1
         document.getElementById('offer1Button').addEventListener('click', function() {
             startTracking(campaignId, offer1Id);
-            console.log('Клик по Офферу 1. ID кампании:', campaignId, 'ID оффера:', offer1Id);
         });
-
+        
         // Обработчик для кнопки Оффера 2
         document.getElementById('offer2Button').addEventListener('click', function() {
             startTracking(campaignId, offer2Id);
-            console.log('Клик по Офферу 2. ID кампании:', campaignId, 'ID оффера:', offer2Id);
         });
     </script>
+    
     <noscript><link href="https://guirmannurcence.com/d/.js?noscript=true&ourl=" rel="stylesheet"/></noscript>
 
 </body>
