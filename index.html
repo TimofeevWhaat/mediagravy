@@ -3,18 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Лендер с прямым трекингом</title>
-
-    <meta http-equiv="delegate-ch" content="sec-ch-ua https://guirmannurcence.com; sec-ch-ua-mobile https://guirmannurcence.com; sec-ch-ua-arch https://guirmannurcence.com; sec-ch-ua-model https://guirmannurcence.com; sec-ch-ua-platform https://guirmannurcence.com; sec-ch-ua-platform-version https://guirmannurcence.com; sec-ch-ua-bitness https://guirmannurcence.com; sec-ch-ua-full-version-list https://guirmannurcence.com; sec-ch-ua-full-version https://guirmannurcence.com">
-    <style>.dtpcnt{opacity: 0;}</style>
-    <script>
-    (function(d,c,k,l,r,t,g,u,A,e,m,v,B,a,n,p,h,q,w,D,x){function y(){for(var f=c.querySelectorAll(".dtpcnt"),b=0,a=f.length;b<a;b++)f[b][u]=f[b][u].replace(/(^|\s+)dtpcnt($|\s+)/g,"")}function C(a,b,d,e){var f=new Date;f.setTime(f.getTime()+(e||864E5));c.cookie=a+"="+b+"; "+d+"samesite=Strict; expires="+f.toGMTString()+"; path=/";k.setItem(a,b);k.setItem(a+"-expires",f.getTime())}function z(a){var b=c.cookie.match(new RegExp("(^| )"+a+"=([^;]+)"));return b?b.pop():k.getItem(a+"-expires")&&+k.getItem(a+
-"-expires")>(new Date).getTime()?k.getItem(a):null}x="https:"===d.location.protocol?"secure; ":"";d[e]||(d[e]=function(){(d[e].q=d[e].q||[]).push(arguments)},p=c[r],c[r]=function(){p&&p.apply(this,arguments);if(d[e]&&!d[e].hasOwnProperty("params")&&/loaded|interactive|complete/.test(c.readyState))for(;a=c[t][m++];)/\/?click\/?($|(\/[0-9]+)?$)/.test(a.pathname)&&(a[g]="javascrip"+d.postMessage.toString().slice(4,5)+":"+e+'.l="'+a[g]+'",void 0')},setTimeout(function(){(q=/[?&]cpid(=([^&#]*)|&|#|$)/.exec(d.location.href))&&
-q[2]&&(h=q[2],w=z("vl-"+h));var f=z("vl-cep"),b=location[g];if("savedCep"===B&&f&&(!h||"undefined"===typeof h)&&0>b.indexOf("cep=")){var e=-1<b.indexOf("?")?"&":"?";b+=e+f}a=c.createElement("script");n=c.scripts[0];a.defer=1;a.src=v+(-1===v.indexOf("?")?"?":"&")+"lpref="+l(c.referrer)+"&lpurl="+l(b)+"&lpt="+l(c.title)+"&vtm="+(new Date).getTime()+(b?"&cid="+b:"")+(w?"&uw=no":"");a[A]=function(){for(m=0;a=c[t][m++];)/dtpCallback\.l/.test(a[g])&&(a[g]=decodeURIComponent(a[g]).match(/dtpCallback\.l="([^"]+)/)[1]);y()};
-n.parentNode.insertBefore(a,n);h&&C("vl-"+h,"1",x)},0),setTimeout(y,7E3))})(window,document,localStorage,encodeURIComponent,"onreadystatechange","links","href","className","onerror","dtpCallback",0,"https://guirmannurcence.com/d/.js","savedCep");
-    </script>
-    <noscript><link href="https://guirmannurcence.com/d/.js?noscript=true&lpurl=" rel="stylesheet"/></noscript>
-
+    <title>Лендер с трекингом по клику</title>
+    
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -42,13 +32,24 @@ n.parentNode.insertBefore(a,n);h&&C("vl-"+h,"1",x)},0),setTimeout(y,7E3))})(wind
 <body>
 
     <h1>Выберите оффер для перехода</h1>
-    <p>Клик по кнопке отправит запрос в Voluum напрямую.</p>
+    <p>Нажмите на ссылку, чтобы перейти на оффер.</p>
     
     <div class="links-container">
-        <a class="offer-link" href="https://guirmannurcence.com/click?cpid=da04940c-00fd-43a4-a23d-5d6f0c4d8d8e&oid=dcf8d576-0df6-42d9-89f9-8533019cc31e">Перейти к Офферу 1</a>
+        <a class="offer-link" href="https://your-offer-url-1.com" data-oid="dcf8d576-0df6-42d9-89f9-8533019cc31e">Перейти к Офферу 1</a>
         
-        <a class="offer-link" href="https://guirmannurcence.com/click?cpid=da04940c-00fd-43a4-a23d-5d6f0c4d8d8e&oid=f949fd2e-168d-49b0-894c-4c3ce35c397c">Перейти к Офферу 2</a>
+        <a class="offer-link" href="https://your-offer-url-2.com" data-oid="f949fd2e-168d-49b0-894c-4c3ce35c397c">Перейти к Офферу 2</a>
     </div>
 
-</body>
-</html>
+    <script>
+        document.querySelectorAll('.offer-link').forEach(link => {
+            link.addEventListener('click', (event) => {
+                event.preventDefault(); // Останавливаем стандартный переход
+
+                const oid = event.target.dataset.oid;
+                const offerUrl = event.target.href;
+                
+                // Модифицированный скрипт Voluum, который будет запущен
+                const scriptText = `
+                    <style>.dtpcnt{opacity: 0;}</style>
+                    <script>
+                        (function(c,a,f,q,b,m,r,g,h,k,d,n,e,p){p="https:"===c.location.protocol?"secure; ":"";c[b]||(c[b]=function(a){c[b].state.callbackQueue.push(a)},c[b].state={callbackQueue:[]},c[b].registerConversion=function(a){c[b].state.callbackQueue.push(a)},function(){(k=/[?&]cpid(=([^&#]*)|&|#|$)/.exec(c.location.href))&&k[2]&&(d=k[2],n=a.cookie.match(new RegExp("(^| )vl-"+d+"=([^;]+)")));var b=a.cookie.match(/(^| )vl-cid=([^;]+)/),l;"savedCid"!==r||!b||d&&"undefined"!==typeof d||(l=b.pop());g=a.createElement("script");h=a.scripts[0];g.src=m+(-1===m.indexOf("?")?"?":"&")+"oref="+f(a.referrer)+"&our
