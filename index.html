@@ -2,111 +2,59 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Voluum URL Tracker</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Пример сайта с трекером по клику</title>
+
+    <meta http-equiv="delegate-ch" content="sec-ch-ua https://guirmannurcence.com; sec-ch-ua-mobile https://guirmannurcence.com; sec-ch-ua-arch https://guirmannurcence.com; sec-ch-ua-model https://guirmannurcence.com; sec-ch-ua-platform https://guirmannurcence.com; sec-ch-ua-platform-version https://guirmannurcence.com; sec-ch-ua-bitness https://guirmannurcence.com; sec-ch-ua-full-version-list https://guirmannurcence.com; sec-ch-ua-full-version https://guirmannurcence.com">
     <style>
         body {
-            font-family: sans-serif;
+            font-family: Arial, sans-serif;
             display: flex;
-            flex-direction: column;
+            justify-content: center;
             align-items: center;
-            justify-content: center;
-            min-height: 100vh;
+            height: 100vh;
+            flex-direction: column;
             text-align: center;
-            padding: 20px;
-            background-color: #f4f4f9;
-        }
-        h1 {
-            color: #333;
-            margin-bottom: 20px;
-        }
-        .offer-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 15px;
-            margin-bottom: 30px;
-        }
-        .offer-link, button {
-            display: inline-block;
-            padding: 12px 24px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: bold;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            border: none;
-        }
-        .offer-link {
-            background-color: #007BFF;
-            color: white;
-        }
-        .offer-link:hover {
-            background-color: #0056b3;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
         button {
-            margin: 10px;
-            background-color: #28a745;
+            padding: 15px 30px;
+            font-size: 18px;
+            cursor: pointer;
+            background-color: #007BFF;
             color: white;
+            border: none;
+            border-radius: 5px;
+            margin-top: 20px;
         }
-        button:hover {
-            background-color: #218838;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        .dtpcnt {
+            opacity: 0;
         }
     </style>
 </head>
 <body>
 
-    <h1>URL Tracker Voluum</h1>
+    <h1>Нажмите кнопку, чтобы запустить трекер</h1>
+    <p>До клика по кнопке скрипт не будет активен.</p>
+    <button id="startButton">Начать отслеживание</button>
 
-    <div class="offer-container">
-        <a class="offer-link" href="https://meyerweb.com/eric/tools/dencoder/?clickid={clickid}">Offer №1</a>
-        <a class="offer-link" href="https://meyerweb.com/eric/tools/dencoder/?clickid={clickid}">Offer №2</a>
-        <a class="offer-link" href="https://meyerweb.com/eric/tools/dencoder/?clickid={clickid}">Offer №3</a>
-        <a class="offer-link" href="https://meyerweb.com/eric/tools/dencoder/?clickid={clickid}">Offer №4</a>
-        <a class="offer-link" href="https://meyerweb.com/eric/tools/dencoder/?clickid={clickid}">Offer №5</a>
-    </div>
-
-    <button id="getClickidButton">Get clickid function</button>
-    <button id="registerClickButton">Register click in Voluum</button>
-
-    <script src="https://dtpmg.com/dtp.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const getClickidButton = document.getElementById('getClickidButton');
-            const registerClickButton = document.getElementById('registerClickButton');
-            const offerLinks = document.querySelectorAll('.offer-link');
+        // Функция, которая содержит ваш скрипт-трекер
+        function startTracking() {
+            // Весь код трекера из вашего примера
+            (function(c,d,f,h,t,b,n,u,k,l,m,e,p,v,q){function r(a){var c=d.cookie.match(new RegExp("(^| )"+a+"=([^;]+)"));return c?c.pop():f.getItem(a+"-expires")&&+f.getItem(a+"-expires")>(new Date).getTime()?f.getItem(a):null}q="https:"===c.location.protocol?"secure; ":"";c[b]||(c[b]=function(a){c[b].state.callbackQueue.push(a)},c[b].state={callbackQueue:[]},c[b].registerConversion=function(a){c[b].state.callbackQueue.push(a)},function(){(m=/[?&]cpid(=([^&#]*)|&|#|$)/.exec(c.location.href))&&m[2]&&(e=m[2],
+            p=r("vl-"+e));var a=r("vl-cid"),b;"savedCid"!==u||!a||e&&"undefined"!==typeof e||(b=a);k=d.createElement("script");l=d.scripts[0];k.src=n+(-1===n.indexOf("?")?"?":"&")+"oref="+h(d.referrer)+"&ourl="+h(location[t])+"&opt="+h(d.title)+"&vtm="+(new Date).getTime()+(b?"&cid="+b:"")+(p?"&uw=no":"");l.parentNode.insertBefore(k,l);if(e){a="vl-"+e;b=q;var g=new Date;g.setTime(g.getTime()+864E5);d.cookie=a+"=1; "+b+"samesite=Strict; expires="+g.toGMTString()+"; path=/";f.setItem(a,"1");f.setItem(a+"-expires",
+            g.getTime())}}())})(window,document,localStorage,encodeURIComponent,"href","dtpCallback","https://guirmannurcence.com/d/.js","savedCid");
+        }
 
-            // Обработчик для кнопки "Get clickid function"
-            getClickidButton.addEventListener('click', () => {
-                const urlParams = new URLSearchParams(window.location.search);
-                const clickid = urlParams.get('clickid');
-                
-                if (clickid) {
-                    offerLinks.forEach(link => {
-                        const originalHref = link.href;
-                        const newHref = originalHref.replace('{clickid}', clickid);
-                        link.href = newHref;
-                        console.log(`Updated link for ${link.textContent}: ${newHref}`);
-                    });
-                    alert(`clickid получен и подставлен в ссылки: ${clickid}`);
-                } else {
-                    alert('Не удалось получить clickid. Убедитесь, что он передан в URL страницы.');
-                }
-            });
-
-            // Обработчик для кнопки "Register click in Voluum"
-            registerClickButton.addEventListener('click', () => {
-                dtpCallback(() => {
-                    dtpCallback.registerClick();
-                    alert('Клик успешно зарегистрирован в Voluum. Редирект не выполнен.');
-                    console.log('Click registered successfully. No redirect.');
-                });
-            });
+        // Находим кнопку по ID и добавляем "слушатель" события клика
+        document.getElementById('startButton').addEventListener('click', function() {
+            // Вызываем функцию с трекером
+            startTracking();
+            // Выводим сообщение, чтобы показать, что скрипт сработал
+            console.log('Скрипт трекера Voluum был вызван.');
         });
     </script>
+    <noscript><link href="https://guirmannurcence.com/d/.js?noscript=true&ourl=" rel="stylesheet"/></noscript>
 
 </body>
 </html>
