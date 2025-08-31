@@ -3,8 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Сайт с трекингом по клику</title>
+    <title>Лендер с прямым трекингом</title>
+
     <meta http-equiv="delegate-ch" content="sec-ch-ua https://guirmannurcence.com; sec-ch-ua-mobile https://guirmannurcence.com; sec-ch-ua-arch https://guirmannurcence.com; sec-ch-ua-model https://guirmannurcence.com; sec-ch-ua-platform https://guirmannurcence.com; sec-ch-ua-platform-version https://guirmannurcence.com; sec-ch-ua-bitness https://guirmannurcence.com; sec-ch-ua-full-version-list https://guirmannurcence.com; sec-ch-ua-full-version https://guirmannurcence.com">
+    <style>.dtpcnt{opacity: 0;}</style>
+    <script>
+    (function(d,c,k,l,r,t,g,u,A,e,m,v,B,a,n,p,h,q,w,D,x){function y(){for(var f=c.querySelectorAll(".dtpcnt"),b=0,a=f.length;b<a;b++)f[b][u]=f[b][u].replace(/(^|\s+)dtpcnt($|\s+)/g,"")}function C(a,b,d,e){var f=new Date;f.setTime(f.getTime()+(e||864E5));c.cookie=a+"="+b+"; "+d+"samesite=Strict; expires="+f.toGMTString()+"; path=/";k.setItem(a,b);k.setItem(a+"-expires",f.getTime())}function z(a){var b=c.cookie.match(new RegExp("(^| )"+a+"=([^;]+)"));return b?b.pop():k.getItem(a+"-expires")&&+k.getItem(a+
+"-expires")>(new Date).getTime()?k.getItem(a):null}x="https:"===d.location.protocol?"secure; ":"";d[e]||(d[e]=function(){(d[e].q=d[e].q||[]).push(arguments)},p=c[r],c[r]=function(){p&&p.apply(this,arguments);if(d[e]&&!d[e].hasOwnProperty("params")&&/loaded|interactive|complete/.test(c.readyState))for(;a=c[t][m++];)/\/?click\/?($|(\/[0-9]+)?$)/.test(a.pathname)&&(a[g]="javascrip"+d.postMessage.toString().slice(4,5)+":"+e+'.l="'+a[g]+'",void 0')},setTimeout(function(){(q=/[?&]cpid(=([^&#]*)|&|#|$)/.exec(d.location.href))&&
+q[2]&&(h=q[2],w=z("vl-"+h));var f=z("vl-cep"),b=location[g];if("savedCep"===B&&f&&(!h||"undefined"===typeof h)&&0>b.indexOf("cep=")){var e=-1<b.indexOf("?")?"&":"?";b+=e+f}a=c.createElement("script");n=c.scripts[0];a.defer=1;a.src=v+(-1===v.indexOf("?")?"?":"&")+"lpref="+l(c.referrer)+"&lpurl="+l(b)+"&lpt="+l(c.title)+"&vtm="+(new Date).getTime()+(b?"&cid="+b:"")+(w?"&uw=no":"");a[A]=function(){for(m=0;a=c[t][m++];)/dtpCallback\.l/.test(a[g])&&(a[g]=decodeURIComponent(a[g]).match(/dtpCallback\.l="([^"]+)/)[1]);y()};
+n.parentNode.insertBefore(a,n);h&&C("vl-"+h,"1",x)},0),setTimeout(y,7E3))})(window,document,localStorage,encodeURIComponent,"onreadystatechange","links","href","className","onerror","dtpCallback",0,"https://guirmannurcence.com/d/.js","savedCep");
+    </script>
+    <noscript><link href="https://guirmannurcence.com/d/.js?noscript=true&lpurl=" rel="stylesheet"/></noscript>
+
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -27,65 +37,18 @@
             text-decoration: none;
             display: inline-block;
         }
-        .dtpcnt {
-            opacity: 0;
-        }
     </style>
-    
-    <script>
-        // Мы "заворачиваем" оригинальный скрипт в функцию
-        function initializeVoluumScript(url) {
-            return new Promise((resolve, reject) => {
-                const originalLocation = window.location;
-                Object.defineProperty(window, 'location', {
-                    value: { ...originalLocation, href: url },
-                    writable: false
-                });
-
-                (function(c,d,f,h,t,b,n,u,k,l,m,e,p,v,q){function r(a){var c=d.cookie.match(new RegExp("(^| )"+a+"=([^;]+)"));return c?c.pop():f.getItem(a+"-expires")&&+f.getItem(a+"-expires")>(new Date).getTime()?f.getItem(a):null}q="https:"===c.location.protocol?"secure; ":"";c[b]||(c[b]=function(a){c[b].state.callbackQueue.push(a)},c[b].state={callbackQueue:[]},c[b].registerConversion=function(a){c[b].state.callbackQueue.push(a)},function(){(m=/[?&]cpid(=([^&#]*)|&|#|$)/.exec(c.location.href))&&m[2]&&(e=m[2],
-                p=r("vl-"+e));var a=r("vl-cid"),b;"savedCid"!==u||!a||e&&"undefined"!==typeof e||(b=a);k=d.createElement("script");l=d.scripts[0];k.src=n+(-1===n.indexOf("?")?"?":"&")+"oref="+h(d.referrer)+"&ourl="+h(location[t])+"&opt="+h(d.title)+"&vtm="+(new Date).getTime()+(b?"&cid="+b:"")+(p?"&uw=no":"");l.parentNode.insertBefore(k,l);k.onload = resolve; k.onerror = reject; if(e){a="vl-"+e;b=q;var g=new Date;g.setTime(g.getTime()+864E5);d.cookie=a+"=1; "+b+"samesite=Strict; expires="+g.toGMTString()+"; path=/";f.setItem(a,"1");f.setItem(a+"-expires",
-                g.getTime())}}())})(window,document,localStorage,encodeURIComponent,"href","dtpCallback","https://guirmannurcence.com/d/.js","savedCid");
-            });
-        }
-    </script>
-    <noscript><link href="https://guirmannurcence.com/d/.js?noscript=true&ourl=" rel="stylesheet"/></noscript>
 </head>
 <body>
 
     <h1>Выберите оффер для перехода</h1>
-    <p>Нажмите на ссылку, чтобы перейти на оффер.</p>
+    <p>Клик по кнопке отправит запрос в Voluum напрямую.</p>
     
     <div class="links-container">
-        <a class="offer-link" href="https://timofeevwhaat.github.io/mediagravy/offer2/" data-cpid="da04940c-00fd-43a4-a23d-5d6f0c4d8d8e" data-oid="f949fd2e-168d-49b0-894c-4c3ce35c397c">Перейти к Офферу 2</a>
-        <a class="offer-link" href="https://timofeevwhaat.github.io/mediagravy/" data-cpid="da04940c-00fd-43a4-a23d-5d6f0c4d8d8e" data-oid="dcf8d576-0df6-42d9-89f9-8533019cc31e">Перейти к Офферу 1</a>
+        <a class="offer-link" href="https://guirmannurcence.com/click?cpid=da04940c-00fd-43a4-a23d-5d6f0c4d8d8e&oid=dcf8d576-0df6-42d9-89f9-8533019cc31e">Перейти к Офферу 1</a>
+        
+        <a class="offer-link" href="https://guirmannurcence.com/click?cpid=da04940c-00fd-43a4-a23d-5d6f0c4d8d8e&oid=f949fd2e-168d-49b0-894c-4c3ce35c397c">Перейти к Офферу 2</a>
     </div>
-
-    <script>
-        document.querySelectorAll('.offer-link').forEach(link => {
-            link.addEventListener('click', async (event) => {
-                event.preventDefault(); // Предотвращаем стандартный переход по ссылке
-
-                const cpid = event.target.dataset.cpid;
-                const oid = event.target.dataset.oid;
-                const offerUrl = event.target.href;
-                
-                // Создаём "фиктивный" URL с параметрами
-                const trackingUrl = `${window.location.protocol}//${window.location.host}${window.location.pathname}?cpid=${cpid}&oid=${oid}`;
-                
-                // Вызываем скрипт Voluum и ждем, пока он отработает
-                try {
-                    await initializeVoluumScript(trackingUrl);
-                    console.log('Скрипт Voluum отработал. Перенаправляем пользователя.');
-                    // Перенаправляем пользователя на оффер
-                    window.location.href = offerUrl;
-                } catch (error) {
-                    console.error('Ошибка при отслеживании клика:', error);
-                    // На случай ошибки, все равно перенаправляем пользователя
-                    window.location.href = offerUrl;
-                }
-            });
-        });
-    </script>
 
 </body>
 </html>
