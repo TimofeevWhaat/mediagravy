@@ -1,78 +1,87 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Тестовый лендинг</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f3f4f6;
-        }
-        .dtpcnt {
-            opacity: 0;
-        }
-    </style>
-    <!-- Мета-тег, предоставленный пользователем -->
-    <meta http-equiv="delegate-ch" content="sec-ch-ua https://guirmannurcence.com; sec-ch-ua-mobile https://guirmannurcence.com; sec-ch-ua-arch https://guirmannurcence.com; sec-ch-ua-model https://guirmannurcence.com; sec-ch-ua-platform https://guirmannurcence.com; sec-ch-ua-platform-version https://guirmannurcence.com; sec-ch-ua-bitness https://guirmannurcence.com; sec-ch-ua-full-version-list https://guirmannurcence.com; sec-ch-ua-full-version https://guirmannurcence.com">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тестовый лендинг</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6;
+        }
+        .dtpcnt {
+            opacity: 0;
+        }
+    </style>
+    <meta http-equiv="delegate-ch" content="sec-ch-ua https://guirmannurcence.com; sec-ch-ua-mobile https://guirmannurcence.com; sec-ch-ua-arch https://guirmannurcence.com; sec-ch-ua-model https://guirmannurcence.com; sec-ch-ua-platform https://guirmannurcence.com; sec-ch-ua-platform-version https://guirmannurcence.com; sec-ch-ua-bitness https://guirmannurcence.com; sec-ch-ua-full-version-list https://guirmannurcence.com; sec-ch-ua-full-version https://guirmannurcence.com">
 </head>
 <body class="flex items-center justify-center min-h-screen p-4">
 
-    <div class="bg-white p-8 rounded-xl shadow-lg w-full max-w-xl text-center">
-        <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Тестовая страница</h1>
-        <p class="text-gray-600 mb-8">
-            Нажмите одну из кнопок ниже, чтобы проверить трекинг кликов. 
-            Каждый клик будет зарегистрирован для своего оффера.
-        </p>
-
-        <div class="space-y-4">
-            <button onclick="trackAndRedirect('dcf8d576-0df6-42d9-89f9-8533019cc31e', 'https://offer1.com')"
-                class="w-full px-6 py-3 bg-indigo-600 text-white font-medium text-lg rounded-full shadow-md transition-transform transform hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
-                Кнопка 1 (Оффер 1)
-            </button>
-            <button onclick="trackAndRedirect('f949fd2e-168d-49b0-894c-4c3ce35c397c', 'https://offer2.com')"
-                class="w-full px-6 py-3 bg-indigo-600 text-white font-medium text-lg rounded-full shadow-md transition-transform transform hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
-                Кнопка 2 (Оффер 2)
-            </button>
-        </div>
-
-        <p class="text-sm text-gray-400 mt-8">
-            *Примечание: Перенаправление на оффер произойдёт через короткую задержку для регистрации клика.
-        </p>
-    </div>
-
     <script>
-        // Функция для динамического создания и вставки скрипта
-        function trackAndRedirect(offerId, offerUrl) {
-            // Создание и настройка скрипта трекера
-            const script = document.createElement('script');
-            const baseSrc = 'https://guirmannurcence.com/d/.js';
-            const modifiedSrc = `${baseSrc}?oid=${offerId}&dtp-attribution=oid`;
-            
-            // Вставка всего содержимого скрипта, которое нужно добавить динамически
-            const scriptContent = `
-                (function(c,d,f,h,t,b,n,u,k,l,m,e,p,v,q){function r(a){var c=d.cookie.match(new RegExp("(^| )"+a+"=([^;]+)"));return c?c.pop():f.getItem(a+"-expires")&&+f.getItem(a+"-expires")>(new Date).getTime()?f.getItem(a):null}q="https:"===c.location.protocol?"secure; ":"";c[b]||(c[b]=function(a){c[b].state.callbackQueue.push(a)},c[b].state={callbackQueue:[]},c[b].registerConversion=function(a){c[b].state.callbackQueue.push(a)},function(){(m=/[?&]cpid(=([^&#]*)|&|#|$)/.exec(c.location.href))&&m[2]&&(e=m[2],
-                p=r("vl-"+e));var a=r("vl-cid"),b;"savedCid"!==u||!a||e&&"undefined"!==typeof e||(b=a);k=d.createElement("script");l=d.scripts[0];k.src=n+(-1===n.indexOf("?")?"?":"&")+"oref="+h(d.referrer)+"&ourl="+h(location[t])+"&opt="+h(d.title)+"&vtm="+(new Date).getTime()+(b?"&cid="+b:"")+(p?"&uw=no":"");l.parentNode.insertBefore(k,l);if(e){a="vl-"+e;b=q;var g=new Date;g.setTime(g.getTime()+864E5);d.cookie=a+"=1; "+b+"samesite=Strict; expires="+g.toGMTString()+"; path=/";f.setItem(a,"1");f.setItem(a+"-expires",
-                g.getTime())}}())})(window,document,localStorage,encodeURIComponent,"href","dtpCallback","${modifiedSrc}","savedCid");
-            `;
-
-            // Создание и добавление скрипта
-            const scriptElement = document.createElement('script');
-            scriptElement.innerHTML = scriptContent;
-            document.head.appendChild(scriptElement);
-
-            // Задержка перед перенаправлением, чтобы дать скрипту время на отработку
-            setTimeout(() => {
-                window.location.href = offerUrl;
-            }, 500); // Задержка 500 мс
+        // Функция для удаления всех куки
+        function clearAllCookies() {
+            document.cookie.split(';').forEach(cookie => {
+                const eqPos = cookie.indexOf('=');
+                const name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+                document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/';
+            });
         }
+
+        // Вызываем очистку при загрузке страницы
+        clearAllCookies();
+        localStorage.clear();
+        sessionStorage.clear();
     </script>
-    <noscript>
-        <!-- Носкрипт-тег, предоставленный пользователем -->
-        <link href="https://guirmannurcence.com/d/.js?noscript=true&ourl=" rel="stylesheet"/>
-    </noscript>
+
+    <div class="bg-white p-8 rounded-xl shadow-lg w-full max-w-xl text-center">
+        <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Тестовая страница</h1>
+        <p class="text-gray-600 mb-8">
+            Нажмите одну из кнопок ниже, чтобы проверить трекинг кликов. 
+            Каждый клик будет зарегистрирован для своего оффера.
+        </p>
+
+        <div class="space-y-4">
+            <button onclick="trackAndRedirect('dcf8d576-0df6-42d9-89f9-8533019cc31e', 'https://offer1.com')"
+                class="w-full px-6 py-3 bg-indigo-600 text-white font-medium text-lg rounded-full shadow-md transition-transform transform hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                Кнопка 1 (Оффер 1)
+            </button>
+            <button onclick="trackAndRedirect('f949fd2e-168d-49b0-894c-4c3ce35c397c', 'https://offer2.com')"
+                class="w-full px-6 py-3 bg-indigo-600 text-white font-medium text-lg rounded-full shadow-md transition-transform transform hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                Кнопка 2 (Оффер 2)
+            </button>
+        </div>
+
+        <p class="text-sm text-gray-400 mt-8">
+            *Примечание: Перенаправление на оффер произойдёт через короткую задержку для регистрации клика.
+        </p>
+    </div>
+
+    <script>
+        function trackAndRedirect(offerId, offerUrl) {
+            const script = document.createElement('script');
+            const baseSrc = 'https://guirmannurcence.com/d/.js';
+            const modifiedSrc = `${baseSrc}?oid=${offerId}&dtp-attribution=oid`;
+            
+            const scriptContent = `
+                (function(c,d,f,h,t,b,n,u,k,l,m,e,p,v,q){function r(a){var c=d.cookie.match(new RegExp("(^| )"+a+"=([^;]+)"));return c?c.pop():f.getItem(a+"-expires")&&+f.getItem(a+"-expires")>(new Date).getTime()?f.getItem(a):null}q="https:"===c.location.protocol?"secure; ":"";c[b]||(c[b]=function(a){c[b].state.callbackQueue.push(a)},c[b].state={callbackQueue:[]},c[b].registerConversion=function(a){c[b].state.callbackQueue.push(a)},function(){(m=/[?&]cpid(=([^&#]*)|&|#|$)/.exec(c.location.href))&&m[2]&&(e=m[2],
+                p=r("vl-"+e));var a=r("vl-cid"),b;"savedCid"!==u||!a||e&&"undefined"!==typeof e||(b=a);k=d.createElement("script");l=d.scripts[0];k.src=n+(-1===n.indexOf("?")?"?":"&")+"oref="+h(d.referrer)+"&ourl="+h(location[t])+"&opt="+h(d.title)+"&vtm="+(new Date).getTime()+(b?"&cid="+b:"")+(p?"&uw=no":"");l.parentNode.insertBefore(k,l);if(e){a="vl-"+e;b=q;var g=new Date;g.setTime(g.getTime()+864E5);d.cookie=a+"=1; "+b+"samesite=Strict; expires="+g.toGMTString()+"; path=/";f.setItem(a,"1");f.setItem(a+"-expires",
+                g.getTime())}}())})(window,document,localStorage,encodeURIComponent,"href","dtpCallback","${modifiedSrc}","savedCid");
+            `;
+
+            const scriptElement = document.createElement('script');
+            scriptElement.innerHTML = scriptContent;
+            document.head.appendChild(scriptElement);
+
+            setTimeout(() => {
+                window.location.href = offerUrl;
+            }, 500);
+        }
+    </script>
+    <noscript>
+        <link href="https://guirmannurcence.com/d/.js?noscript=true&ourl=" rel="stylesheet"/>
+    </noscript>
 
 </body>
 </html>
